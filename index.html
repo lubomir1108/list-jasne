@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>List Jasne · BriefKlar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,8 +14,8 @@
       --card-border: #e2e8f0;
       --ink: #0f172a;
       --ink-muted: #64748b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
+      --brand: #2563eb;
+      --brand-light: #eff6ff;
       --accent: #f59e0b;
       --danger: #dc2626;
       --danger-bg: #fef2f2;
@@ -24,595 +24,219 @@
       --warning-bg: #fffbeb;
       --warning-border: #fde68a;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Plus Jakarta Sans", sans-serif; }
-    body { background-color: var(--bg); color: var(--ink); padding: 20px 14px 60px; display: flex; justify-content: center; }
-    .container { max-width: 680px; width: 100%; }
-
-    /* Top utility bar */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0f172a;
-      color: #94a3b8;
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      margin-bottom: 24px;
-    }
-    .top-bar-tags { display: flex; gap: 8px; align-items: center; }
-    .lang-select {
-      background: #1e293b;
-      color: #f8fafc;
-      border: 1px solid #334155;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      outline: none;
-    }
-
-    /* Header */
-    header { text-align: center; margin-bottom: 24px; }
-    .badge-sub { font-size: 13px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-    h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 10px; letter-spacing: -0.5px; }
-    p.subtitle { color: var(--ink-muted); font-size: 14px; line-height: 1.6; max-width: 540px; margin: 0 auto 16px; }
-
-    .agency-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 20px; }
-    .chip { font-size: 11px; font-weight: 600; padding: 3px 9px; background: #e2e8f0; color: #475569; border-radius: 6px; }
-
-    /* Notice boxes */
-    .notice-box {
-      background: var(--warning-bg);
-      border: 1px solid var(--warning-border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: #92400e;
-      margin-bottom: 12px;
-    }
-    .notice-box strong { color: #78350f; display: block; margin-bottom: 4px; font-size: 13px; }
-
-    .privacy-box {
-      background: var(--success-bg);
-      border: 1px solid #bbf7d0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: #166534;
-      margin-bottom: 20px;
-    }
-    .privacy-box strong { color: #14532d; display: block; margin-bottom: 2px; }
-
-    /* Cards */
-    .card { background: var(--sheet); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04); margin-bottom: 18px; }
-    .step-header { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
-
-    /* Buttons */
-    .btn { display: inline-flex; justify-content: center; align-items: center; width: 100%; padding: 14px; font-size: 15px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; text-decoration: none; transition: 0.15s ease-in-out; }
-    .btn-revolut { background: #000000; color: #ffffff; }
-    .btn-revolut:hover { background: #1f2937; }
-    .btn-primary { background: var(--primary); color: #ffffff; margin-top: 14px; }
-    .btn-primary:hover { background: var(--primary-hover); }
-
-    /* Upload grid */
-    .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .upload-tile {
-      border: 2px dashed var(--card-border);
-      border-radius: 12px;
-      padding: 20px 10px;
-      text-align: center;
-      cursor: pointer;
-      background: #fafafa;
-      transition: background 0.15s;
-    }
-    .upload-tile:hover { background: #f1f5f9; border-color: var(--primary); }
-    .upload-tile svg { display: block; margin: 0 auto 8px; color: var(--ink-muted); }
-    .upload-tile span { font-size: 13px; font-weight: 600; color: var(--ink); }
-
-    .file-input { display: none; }
-    .selected-info { font-size: 13px; font-weight: 600; color: var(--primary); text-align: center; margin-top: 8px; word-break: break-all; }
-
-    .textarea { width: 100%; height: 90px; padding: 12px; border: 1px solid var(--card-border); border-radius: 10px; resize: vertical; font-size: 13px; margin-top: 10px; outline: none; }
-    .textarea:focus { border-color: var(--primary); }
-
-    /* Loading state */
-    .loader { display: none; text-align: center; padding: 24px 0; }
-    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 34px; height: 34px; animation: spin 0.9s linear infinite; margin: 0 auto 10px; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-    /* Results */
-    .result-section { display: none; margin-top: 10px; }
-    .result-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
-    .badge-high { background: var(--danger-bg); color: var(--danger); }
-    .badge-mid { background: var(--warning-bg); color: #b45309; }
-    .badge-low { background: var(--success-bg); color: var(--success); }
-
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
-    .info-box { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 12px; }
-    .info-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 4px; }
-    .info-val { font-size: 15px; font-weight: 800; color: var(--ink); }
-
-    .action-steps { padding-left: 20px; font-size: 14px; line-height: 1.6; margin-top: 8px; }
-    .reply-box { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; margin-top: 14px; }
-    .reply-text { font-family: "JetBrains Mono", monospace; font-size: 13px; color: #1e293b; background: #ffffff; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 6px; white-space: pre-wrap; }
+    body { background: var(--bg); color: var(--ink); padding: 16px 12px 60px; display: flex; justify-content: center; }
+    .wrap { max-width: 640px; width: 100%; }
+    .bar { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: #94a3b8; padding: 8px 14px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-bottom: 20px; }
+    .bar-tags { display: flex; gap: 8px; align-items: center; }
+    .lang-btn { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    header { text-align: center; margin-bottom: 20px; }
+    .pill { display: inline-block; font-size: 12px; font-weight: 700; color: var(--brand); background: var(--brand-light); padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    h1 { font-size: 26px; font-weight: 800; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.5px; }
+    .lead { font-size: 14px; line-height: 1.5; color: var(--ink-muted); margin-bottom: 14px; }
+    .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 18px; }
+    .t { font-size: 11px; font-weight: 600; padding: 3px 8px; background: #e2e8f0; color: #475569; border-radius: 6px; }
+    .warn { background: var(--warning-bg); border: 1px solid var(--warning-border); border-radius: 10px; padding: 12px; font-size: 12px; line-height: 1.4; color: #92400e; margin-bottom: 10px; text-align: left; }
+    .warn strong { color: #78350f; display: block; margin-bottom: 2px; }
+    .sec { background: var(--success-bg); border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px; font-size: 12px; line-height: 1.4; color: #166534; margin-bottom: 18px; text-align: left; }
+    .sec strong { color: #14532d; display: block; margin-bottom: 2px; }
+    .card { background: var(--sheet); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .card-head { font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; width: 100%; padding: 14px; font-size: 15px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; text-decoration: none; }
+    .btn-pay { background: #000; color: #fff; }
+    .btn-act { background: var(--brand); color: #fff; margin-top: 12px; }
+    .btn-act:disabled { background: #94a3b8; cursor: not-allowed; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .tile { border: 2px dashed var(--card-border); border-radius: 10px; padding: 16px 8px; text-align: center; cursor: pointer; background: #fafafa; }
+    .tile svg { display: block; margin: 0 auto 6px; color: var(--ink-muted); }
+    .tile span { font-size: 12px; font-weight: 600; }
+    input[type=file] { display: none; }
+    .fn { font-size: 12px; font-weight: 600; color: var(--brand); text-align: center; margin-top: 6px; word-break: break-all; }
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid var(--card-border); border-radius: 8px; font-size: 13px; margin-top: 8px; outline: none; }
+    .load { display: none; text-align: center; padding: 20px 0; }
+    .spin { border: 3px solid #f3f3f3; border-top: 3px solid var(--brand); border-radius: 50%; width: 30px; height: 30px; animation: sp 1s linear infinite; margin: 0 auto 10px; }
+    @keyframes sp { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .out { display: none; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .b-hi { background: var(--danger-bg); color: var(--danger); }
+    .b-no { background: var(--warning-bg); color: #b45309; }
+    .b-lo { background: var(--success-bg); color: var(--success); }
+    .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    .ib { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; }
+    .lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--ink-muted); }
+    .val { font-size: 14px; font-weight: 800; margin-top: 2px; }
+    .steps { padding-left: 18px; font-size: 13px; line-height: 1.5; margin-top: 6px; }
+    .reply { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 8px; padding: 12px; margin-top: 12px; }
+    .codebox { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #1e293b; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 6px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="top-bar">
-    <div class="top-bar-tags">
-      <span id="txtGdpr">Súlad s GDPR</span>
+<div class="wrap">
+  <div class="bar">
+    <div class="bar-tags">
+      <span>Súlad s GDPR</span>
       <span>•</span>
-      <span id="txtNoStore">Bez ukladania dát</span>
+      <span>Bez ukladania dát</span>
     </div>
-    <div>
-      <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
-        <option value="sk" selected>🇸🇰 Slovenčina</option>
-        <option value="cs">🇨🇿 Čeština</option>
-        <option value="pl">🇵🇱 Polski</option>
-        <option value="ro">🇷🇴 Română</option>
-        <option value="hu">🇭🇺 Magyar</option>
-        <option value="uk">🇺🇦 Українська</option>
-        <option value="bg">🇧🇬 Български</option>
-        <option value="en">🇬🇧 English</option>
-      </select>
-    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="btnLang">Slovenčina ▾</button>
   </div>
 
   <header>
-    <span class="badge-sub">List Jasne • BriefKlar</span>
-    <h1 id="txtTitle">Rozumiem úradnému listu</h1>
-    <p class="subtitle" id="txtSubtitle">Prišiel vám nemecký list z Rakúska alebo Nemecka a neviete, čo znamená? Odfoťte ho. Zistite, čo presne žiadajú, dokedy treba odpovedať a dostanete hotovú nemeckú odpoveď.</p>
-    
-    <div class="agency-chips">
-      <span class="chip">SVS / Krankenkasse</span>
-      <span class="chip">Finanzamt (Steuern)</span>
-      <span class="chip">ÖGK / AOK</span>
-      <span class="chip">AMS / Jobcenter</span>
-      <span class="chip">Kindergeld / Familienbeihilfe</span>
-      <span class="chip">Mahnung / Inkasso</span>
+    <div class="pill">List Jasne · BriefKlar</div>
+    <h1 id="tTitle">Rozumiem úradnému listu</h1>
+    <p class="lead" id="tLead">Prišiel vám nemecký list z Rakúska alebo Nemecka a neviete, čo znamená? Odfoťte ho. Zistite, čo presne žiadajú, dokedy treba odpovedať a dostanete hotovú nemeckú odpoveď.</p>
+    <div class="tags">
+      <span class="t">SVS / Krankenkasse</span>
+      <span class="t">Finanzamt (Steuern)</span>
+      <span class="t">ÖGK / AOK</span>
+      <span class="t">AMS / Jobcenter</span>
+      <span class="t">Kindergeld / Familienbeihilfe</span>
+      <span class="t">Mahnung / Inkasso</span>
     </div>
   </header>
 
-  <div class="notice-box">
-    <strong id="txtWarningTitle">Upozornenie: Nejde o právne ani daňové poradenstvo</strong>
-    <span id="txtWarningText">Tento nástroj poskytuje informatívny preklad a orientáciu v úradnom liste pomocou umelej inteligencie. Nenahrádza odbornú pomoc právnika, advokáta ani daňového poradcu (Steuerberater). V sporných, komplikovaných alebo vysokých prípadoch sa obráťte na Arbeiterkammer (AK) alebo odborníka.</span>
+  <div class="warn">
+    <strong id="tWarnH">Upozornenie: Nejde o právne ani daňové poradenstvo</strong>
+    <span id="tWarnB">Tento nástroj poskytuje informatívny preklad a orientáciu v úradnom liste pomocou umelej inteligencie. Nenahrádza odbornú pomoc právnika, advokáta ani daňového poradcu (Steuerberater). V sporných, komplikovaných alebo vysokých prípadoch sa obráťte na Arbeiterkammer (AK) alebo odborníka.</span>
   </div>
 
-  <div class="privacy-box">
-    <strong id="txtPrivacyTitle">Vaše súkromie a údaje sú chránené</strong>
-    <span id="txtPrivacyText">Meno, rodné číslo ani adresu neukladáme. Po zatvorení stránky sa odoslaná fotka z pamäte navždy zmaže.</span>
+  <div class="sec">
+    <strong id="tSecH">Vaše súkromie a údaje sú chránené</strong>
+    <span id="tSecB">Meno, rodné číslo ani adresu neukladáme. Po zatvorení stránky sa odoslaná fotka z pamäte navždy zmaže.</span>
   </div>
 
-  <!-- Platba -->
   <div class="card">
-    <div class="step-header">
-      <span id="txtPayHeader">Poplatok za jednorazovú analýzu</span>
-      <span style="font-weight: 800; color: var(--primary);">2,49 €</span>
+    <div class="card-head">
+      <span id="tPayH">1. Poplatok za analýzu</span>
+      <span style="font-weight: 800; color: var(--brand);">2,49 €</span>
     </div>
-    <p style="font-size: 13px; color: var(--ink-muted); margin-bottom: 12px;" id="txtPayDesc">Pre získanie okamžitého prekladu a vygenerovanie nemeckej odpovede kliknite nižšie na bezpečnú platbu cez Revolut:</p>
-    <a href="https://checkout.revolut.com/pay/b3bcd40e-46f6-4f94-96a2-8acbd21dcbbd" target="_blank" class="btn btn-revolut" id="txtPayBtn">
-      Zaplatiť 2,49 € cez Revolut
-    </a>
+    <p style="font-size: 13px; color: var(--ink-muted); margin-bottom: 12px;" id="tPayB">Kliknite a bezpečne uhraďte jednorazovú analýzu cez Revolut:</p>
+    <a href="https://checkout.revolut.com/pay/b3bcd40e-46f6-4f94-96a2-8acbd21dcbbd" target="_blank" class="btn btn-pay" id="tPayBtn">Zaplatiť 2,49 € cez Revolut</a>
   </div>
 
-  <!-- Upload dokumentu -->
   <div class="card">
-    <div class="step-header">
-      <span id="txtUploadHeader">Nahrajte alebo odfoťte list</span>
-    </div>
-
-    <div class="upload-grid">
-      <label class="upload-tile" for="fileInputCamera">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span id="txtCameraBtn">Odfoťte mobilom</span>
+    <div class="card-head"><span id="tUpH">2. Nahrajte alebo odfoťte list</span></div>
+    <div class="grid2">
+      <label class="tile" for="fCam">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span id="tCam">Odfoťte mobilom</span>
       </label>
-      <input type="file" id="fileInputCamera" class="file-input" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
+      <input type="file" id="fCam" accept="image/*" capture="environment" onchange="pick(event)">
 
-      <label class="upload-tile" for="fileInputFile">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <span id="txtUploadBtn">Nahrať fotku alebo PDF</span>
+      <label class="tile" for="fDoc">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span id="tDoc">Nahrať fotku alebo PDF</span>
       </label>
-      <input type="file" id="fileInputFile" class="file-input" accept="image/*,application/pdf" onchange="handleFileSelect(event)">
+      <input type="file" id="fDoc" accept="image/*,application/pdf" onchange="pick(event)">
     </div>
-
-    <div id="fileStatus" class="selected-info"></div>
-
-    <textarea id="rawTextInput" class="textarea" placeholder="Alebo vložte nemecký text listu ručne..."></textarea>
-
-    <button id="submitBtn" class="btn btn-primary" onclick="processDocument()">Spustiť analýzu listu</button>
+    <div id="fn" class="fn"></div>
+    <textarea id="tx" placeholder="Alebo vložte nemecký text listu ručne..."></textarea>
+    <button class="btn btn-act" id="btnRun" onclick="run()">Spustiť analýzu listu</button>
   </div>
 
-  <!-- Indikátor načítavania -->
-  <div class="card loader" id="loadingBox">
-    <div class="spinner"></div>
-    <div style="font-weight: 700; font-size: 15px;" id="txtLoaderMain">Prebieha čítanie a analýza listu...</div>
-    <div style="font-size: 12px; color: var(--ink-muted); margin-top: 4px;" id="txtLoaderSub">Umelá inteligencia vyhľadáva termíny, sumy a potrebné kroky.</div>
+  <div class="card load" id="boxLoad">
+    <div class="spin"></div>
+    <div style="font-weight: 700; font-size: 14px;">Prebieha analýza dokumentu...</div>
   </div>
 
-  <!-- Výsledky -->
-  <div class="card result-section" id="resultsCard">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+  <div class="card out" id="boxOut">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
       <div>
-        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink-muted);" id="resOdosielatel">-</div>
-        <h2 style="font-size: 19px; font-weight: 800; margin-top: 2px;" id="resNadpis">Výsledok analýzy</h2>
+        <div class="lbl" id="oOd">Odosielateľ</div>
+        <h2 style="font-size: 17px; font-weight: 800;" id="oNad">Výsledok</h2>
       </div>
-      <span class="result-badge badge-mid" id="resNalehavostBadge">NORMÁLNA</span>
+      <span class="badge b-no" id="oNal">NORMÁLNA</span>
     </div>
-
-    <div style="font-size: 14px; line-height: 1.6; margin-bottom: 14px;" id="resZhrnutie"></div>
-
-    <div class="info-grid">
-      <div class="info-box">
-        <div class="info-label" id="lblDeadline">Dátum / Lehota</div>
-        <div class="info-val" id="resTermin" style="color: var(--danger);">-</div>
+    <div style="font-size: 13px; line-height: 1.5; margin-bottom: 10px;" id="oZhr"></div>
+    <div class="boxes">
+      <div class="ib">
+        <div class="lbl">Termín / Lehota</div>
+        <div class="val" id="oTer" style="color: var(--danger);">-</div>
       </div>
-      <div class="info-box">
-        <div class="info-label" id="lblAmount">Suma na úhradu</div>
-        <div class="info-val" id="resSuma">-</div>
+      <div class="ib">
+        <div class="lbl">Suma na úhradu</div>
+        <div class="val" id="oSum">-</div>
       </div>
     </div>
-
-    <div style="margin-bottom: 14px;">
-      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 6px;" id="lblSteps">Čo presne musíte urobiť:</div>
-      <ol class="action-steps" id="resKrokyList"></ol>
-    </div>
-
-    <div style="background: var(--danger-bg); border: 1px solid #fecaca; border-radius: 10px; padding: 12px; margin-bottom: 14px;">
-      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--danger);" id="lblRisks">Čo hrozí pri ignorovaní:</div>
-      <div style="font-size: 13px; color: #991b1b; margin-top: 2px;" id="resHrozi"></div>
-    </div>
-
-    <div class="reply-box">
-      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink);" id="lblReply">Nemecký vzor odpovede na odoslanie:</div>
-      <div class="reply-text" id="resOdpovedDe"></div>
-      <div style="font-size: 12px; color: var(--ink-muted); margin-top: 6px;" id="resOdpovedSk"></div>
+    <div class="lbl" style="margin-top: 10px;">Čo presne musíte urobiť:</div>
+    <ol class="steps" id="oKro"></ol>
+    <div class="lbl" style="margin-top: 10px; color: var(--danger);">Čo hrozí pri ignorovaní:</div>
+    <div style="font-size: 13px; color: #991b1b; margin-top: 2px;" id="oHro"></div>
+    <div class="reply">
+      <div class="lbl">Nemecký vzor odpovede na odoslanie:</div>
+      <div class="codebox" id="oDe"></div>
+      <div style="font-size: 12px; color: var(--ink-muted); margin-top: 4px;" id="oSk"></div>
     </div>
   </div>
 </div>
 
 <script>
-  let loadedBase64 = null;
+  let b64 = null;
+  const langs = ['Slovenčina', 'Čeština', 'Polski', 'Română', 'Magyar', 'Українська', 'Български', 'English'];
+  let curLangIdx = 0;
 
-  const translations = {
-    sk: {
-      langName: "slovenčina",
-      gdpr: "Súlad s GDPR",
-      noStore: "Bez ukladania dát",
-      title: "Rozumiem úradnému listu",
-      subtitle: "Prišiel vám nemecký list z Rakúska alebo Nemecka a neviete, čo znamená? Odfoťte ho. Zistite, čo presne žiadajú, dokedy treba odpovedať a dostanete hotovú nemeckú odpoveď.",
-      warningTitle: "Upozornenie: Nejde o právne ani daňové poradenstvo",
-      warningText: "Tento nástroj poskytuje informatívny preklad a orientáciu v úradnom liste pomocou umelej inteligencie. Nenahrádza odbornú pomoc právnika, advokáta ani daňového poradcu (Steuerberater). V sporných, komplikovaných alebo vysokých prípadoch sa obráťte na Arbeiterkammer (AK) alebo odborníka.",
-      privacyTitle: "Vaše súkromie a údaje sú chránené",
-      privacyText: "Meno, rodné číslo ani adresu neukladáme. Po zatvorení stránky sa odoslaná fotka z pamäte navždy zmaže.",
-      payHeader: "Poplatok za jednorazovú analýzu",
-      payDesc: "Pre získanie okamžitého prekladu a vygenerovanie nemeckej odpovede kliknite nižšie na bezpečnú platbu cez Revolut:",
-      payBtn: "Zaplatiť 2,49 € cez Revolut",
-      uploadHeader: "Nahrajte alebo odfoťte list",
-      cameraBtn: "Odfoťte mobilom",
-      uploadBtn: "Nahrať fotku alebo PDF",
-      placeholder: "Alebo vložte nemecký text listu ručne...",
-      submitBtn: "Spustiť analýzu listu",
-      loaderMain: "Prebieha čítanie a analýza listu...",
-      loaderSub: "Umelá inteligencia vyhľadáva termíny, sumy a potrebné kroky.",
-      lblDeadline: "Dátum / Lehota",
-      lblAmount: "Suma na úhradu",
-      lblSteps: "Čo presne musíte urobiť:",
-      lblRisks: "Čo hrozí pri ignorovaní:",
-      lblReply: "Nemecký vzor odpovede na odoslanie:",
-      errNoInput: "Najprv prosím odfoťte list, nahrajte súbor alebo vložte text dokumentu."
-    },
-    cs: {
-      langName: "čeština",
-      gdpr: "Soulad s GDPR",
-      noStore: "Bez ukládání dat",
-      title: "Rozumím úřednímu dopisu",
-      subtitle: "Přišel vám německý dopis z Rakouska nebo Německa a nevíte, co znamená? Vyfoťte jej. Zjistěte, co přesně požadují, dokdy je třeba odpovědět a získejte hotovou německou odpověď.",
-      warningTitle: "Upozornění: Nejedná se o právní ani daňové poradenství",
-      warningText: "Tento nástroj poskytuje informativní překlad a orientaci v úředním dopise pomocí umělé inteligence. Nenahrazuje odbornou pomoc právníka ani daňového poradce.",
-      privacyTitle: "Vaše soukromí a údaje jsou chráněny",
-      privacyText: "Jméno, rodné číslo ani adresu neukládáme. Po zavření stránky se odeslaná fotografie z paměti trvale smaže.",
-      payHeader: "Poplatek za jednorázovou analýzu",
-      payDesc: "Pro získání okamžitého překladu a vygenerování odpovědi klikněte níže na bezpečnou platbu přes Revolut:",
-      payBtn: "Zaplatit 2,49 € přes Revolut",
-      uploadHeader: "Nahrajte nebo vyfoťte dopis",
-      cameraBtn: "Vyfotit mobilem",
-      uploadBtn: "Nahrát foto nebo PDF",
-      placeholder: "Nebo vložte německý text dopisu ručně...",
-      submitBtn: "Spustit analýzu dopisu",
-      loaderMain: "Probíhá čtení a analýza dopisu...",
-      loaderSub: "Umělá inteligence vyhledává termíny, částky a potřebné kroky.",
-      lblDeadline: "Datum / Lhůta",
-      lblAmount: "Částka k úhradě",
-      lblSteps: "Co přesně musíte udělat:",
-      lblRisks: "Co hrozí při ignorování:",
-      lblReply: "Německý vzor odpovědi k odeslání:",
-      errNoInput: "Nejprve prosím vyfoťte dopis, nahrajte soubor nebo vložte text dokumentu."
-    },
-    pl: {
-      langName: "polski",
-      gdpr: "Zgodność z RODO",
-      noStore: "Bez zapisywania danych",
-      title: "Zrozum pismo urzędowe",
-      subtitle: "Otrzymałeś pismo z Austrii lub Niemiec i nie wiesz, co oznacza? Zrób zdjęcie. Dowiedz się, czego wymagają i otrzymaj gotową odpowiedź po niemiecku.",
-      warningTitle: "Uwaga: To nie jest porada prawna ani podatkowa",
-      warningText: "Narzędzie służy do tłumaczenia informacyjnego przy użyciu AI. Nie zastępuje pomocy prawnika ani doradcy podatkowego.",
-      privacyTitle: "Twoje dane są bezpieczne",
-      privacyText: "Nie przechowujemy danych osobowych. Zdjęcia są natychmiast usuwane z pamięci.",
-      payHeader: "Opłata za jednorazową analizę",
-      payDesc: "Aby uzyskać natychmiastowe tłumaczenie i odpowiedź, kliknij poniżej, aby zapłacić przez Revolut:",
-      payBtn: "Zapłać 2,49 € przez Revolut",
-      uploadHeader: "Prześlij lub zrób zdjęcie listu",
-      cameraBtn: "Zrób zdjęcie",
-      uploadBtn: "Prześlij plik lub PDF",
-      placeholder: "Lub wklej treść pisma po niemiecku...",
-      submitBtn: "Rozpocznij analizę",
-      loaderMain: "Analizowanie pisma...",
-      loaderSub: "Sztuczna inteligencja odczytuje terminy, kwoty i wymagane kroki.",
-      lblDeadline: "Termin",
-      lblAmount: "Kwota do zapłaty",
-      lblSteps: "Co dokładnie musisz zrobić:",
-      lblRisks: "Konsekwencje braku reakcji:",
-      lblReply: "Wzór odpowiedzi po niemiecku:",
-      errNoInput: "Proszę najpierw zrobić zdjęcie pisma, przesłać plik lub wkleić tekst."
-    },
-    ro: {
-      langName: "română",
-      gdpr: "Conformitate GDPR",
-      noStore: "Fără stocare de date",
-      title: "Înțelege scrisoarea oficială",
-      subtitle: "Ați primit o scrisoare oficială din Austria sau Germania? Faceți o poză și aflați imediat ce vi se cere și primiți un răspuns gata redactat în germană.",
-      warningTitle: "Atenție: Nu reprezintă consultanță juridică sau fiscală",
-      warningText: "Acest instrument oferă doar o traducere informativă și orientativă prin inteligență artificială.",
-      privacyTitle: "Datele dvs. sunt protejate",
-      privacyText: "Nu stocăm numele sau adresa dvs. Fotografia este ștearsă permanent după procesare.",
-      payHeader: "Taxă analiză unică",
-      payDesc: "Pentru traducere imediată și răspuns oficial, plătiți în siguranță prin Revolut:",
-      payBtn: "Plătește 2,49 € prin Revolut",
-      uploadHeader: "Încărcați sau fotografiați scrisoarea",
-      cameraBtn: "Fotografiază cu telefonul",
-      uploadBtn: "Încarcă poză sau PDF",
-      placeholder: "Sau introduceți textul în limba germană aici...",
-      submitBtn: "Analizează documentul",
-      loaderMain: "Se analizează documentul...",
-      loaderSub: "Identificăm termenele limită, sumele și pașii necesari.",
-      lblDeadline: "Termen limită",
-      lblAmount: "Sumă de plată",
-      lblSteps: "Ce trebuie să faceți:",
-      lblRisks: "Ce riscați dacă nu răspundeți:",
-      lblReply: "Model de răspuns în limba germană:",
-      errNoInput: "Vă rugăm să încărcați o poză sau să introduceți textul scrisorii."
-    },
-    hu: {
-      langName: "magyar",
-      gdpr: "GDPR megfelelőség",
-      noStore: "Adattárolás nélkül",
-      title: "Hivatalos levél egyszerűen",
-      subtitle: "Német nyelvű levelet kapott Ausztriából vagy Németországból? Fotózza le, és tudja meg pontosan, mit kérnek öntől és határidőre kap választ.",
-      warningTitle: "Figyelem: Nem minősül jogi vagy adótanácsadásnak",
-      warningText: "Ez az eszköz tájékoztató jellegű fordítást nyújt mesterséges intelligencia segítségével.",
-      privacyTitle: "Az ön adatai védettek",
-      privacyText: "Nem tárolunk személyes adatokat. A kép az elemzés után azonnal törlődik.",
-      payHeader: "Egyszeri elemzési díj",
-      payDesc: "Az azonnali fordításért és német nyelvű válaszért fizessen biztonságosan Revoluttal:",
-      payBtn: "Fizetés 2,49 € Revoluttal",
-      uploadHeader: "Töltse fel vagy fotózza le a levelet",
-      cameraBtn: "Fotózás mobillal",
-      uploadBtn: "Kép vagy PDF feltöltése",
-      placeholder: "Vagy illessze be a német szöveget ide...",
-      submitBtn: "Levél elemzése",
-      loaderMain: "A levél elemzése folyamatban...",
-      loaderSub: "A mesterséges intelligencia keresi a határidőket és összegeket.",
-      lblDeadline: "Határidő",
-      lblAmount: "Fizetendő összeg",
-      lblSteps: "Mit kell pontosan tennie:",
-      lblRisks: "Következmények késedelem esetén:",
-      lblReply: "Német nyelvű válasz sablon:",
-      errNoInput: "Kérjük, először készítsen fényképet, vagy töltsön fel egy fájlt."
-    },
-    uk: {
-      langName: "українська",
-      gdpr: "Відповідність GDPR",
-      noStore: "Без збереження даних",
-      title: "Зрозумійте офіційний лист",
-      subtitle: "Отримали німецький лист з Австрії чи Німеччини? Сфотографуйте його, щоб дізнатися суть вимог, терміни та отримати готову відповідь німецькою.",
-      warningTitle: "Увага: Не є юридичною або податковою консультацією",
-      warningText: "Цей інструмент надає інформативний переклад за допомогою штучного інтелекту.",
-      privacyTitle: "Ваша конфіденційність захищена",
-      privacyText: "Ми не зберігаємо персональні дані. Фотографії видаляються з пам'яті одразу після аналізу.",
-      payHeader: "Плата за разовий аналіз",
-      payDesc: "Для миттєвого перекладу та формування відповіді оплатіть через Revolut:",
-      payBtn: "Оплатити 2,49 € через Revolut",
-      uploadHeader: "Завантажте або сфотографуйте лист",
-      cameraBtn: "Сфотографувати",
-      uploadBtn: "Завантажити фото або PDF",
-      placeholder: "Або вставте німецький текст листа вручну...",
-      submitBtn: "Почати аналіз",
-      loaderMain: "Триває аналіз документа...",
-      loaderSub: "Штучний інтелект визначає терміни, суми та обов'язкові кроки.",
-      lblDeadline: "Крайній термін",
-      lblAmount: "Сума до сплати",
-      lblSteps: "Що саме потрібно зробити:",
-      lblRisks: "Що загрожує у разі бездіяльності:",
-      lblReply: "Зразок відповіді німецькою мовою:",
-      errNoInput: "Будь ласка, спочатку завантажте фото або вставте текст."
-    },
-    bg: {
-      langName: "български",
-      gdpr: "GDPR съвместимост",
-      noStore: "Без запазване на данни",
-      title: "Разберете официалното писмо",
-      subtitle: "Получихте официално писмо от Австрия или Германия? Снимайте го и разберете какво точно изискват от вас, какъв е срокът и получете готов отговор.",
-      warningTitle: "Внимание: Това не е правна или данъчна консултация",
-      warningText: "Инструментът предоставя информативен превод чрез изкуствен интелект.",
-      privacyTitle: "Вашите данни са защитени",
-      privacyText: "Не запазваме лични данни. Снимката се изтрива след приключване.",
-      payHeader: "Такса за еднократен анализ",
-      payDesc: "За незабавен превод и готов отговор платете сигурно чрез Revolut:",
-      payBtn: "Плати 2,49 € чрез Revolut",
-      uploadHeader: "Качете или снимайте писмото",
-      cameraBtn: "Снимайте с телефона",
-      uploadBtn: "Качете снимка или PDF",
-      placeholder: "Или въведете немския текст тук...",
-      submitBtn: "Анализирай писмото",
-      loaderMain: "Писмото се анализира...",
-      loaderSub: "Изкуственият интелект проверява срокове, суми и стъпки.",
-      lblDeadline: "Краен срок",
-      lblAmount: "Сума за плащане",
-      lblSteps: "Какво точно трябва да направите:",
-      lblRisks: "Какво рискувате при игнориране:",
-      lblReply: "Готов отговор на немски език:",
-      errNoInput: "Моля, първо качете снимка или въведете текста."
-    },
-    en: {
-      langName: "english",
-      gdpr: "GDPR Compliant",
-      noStore: "Zero Data Retention",
-      title: "Understand Your Official Letter",
-      subtitle: "Received an official letter from Germany or Austria? Snap a photo to discover exact deadlines, required payments, and receive a ready-to-send German reply.",
-      warningTitle: "Disclaimer: Not Legal or Tax Advice",
-      warningText: "This AI-powered tool provides informative translations and actionable summaries. It does not replace certified legal or tax professionals.",
-      privacyTitle: "Privacy & Data Protection",
-      privacyText: "We do not store your name or address. Uploaded files are deleted permanently after processing.",
-      payHeader: "One-time Analysis Fee",
-      payDesc: "To unlock instant document explanation and response drafting, pay securely via Revolut:",
-      payBtn: "Pay 2.49 € with Revolut",
-      uploadHeader: "Upload or Capture Document",
-      cameraBtn: "Take a photo",
-      uploadBtn: "Upload Image or PDF",
-      placeholder: "Or paste the German document text directly...",
-      submitBtn: "Analyze Document",
-      loaderMain: "Analyzing your document...",
-      loaderSub: "AI is extracting deadlines, monetary amounts, and action items.",
-      lblDeadline: "Deadline / Due Date",
-      lblAmount: "Amount Due",
-      lblSteps: "Action steps required:",
-      lblRisks: "Consequences of inaction:",
-      lblReply: "Drafted German Response:",
-      errNoInput: "Please capture a document, upload a file, or paste text first."
-    }
-  };
-
-  function changeLanguage(langKey) {
-    const t = translations[langKey] || translations.sk;
-    document.getElementById('txtGdpr').innerText = t.gdpr;
-    document.getElementById('txtNoStore').innerText = t.noStore;
-    document.getElementById('txtTitle').innerText = t.title;
-    document.getElementById('txtSubtitle').innerText = t.subtitle;
-    document.getElementById('txtWarningTitle').innerText = t.warningTitle;
-    document.getElementById('txtWarningText').innerText = t.warningText;
-    document.getElementById('txtPrivacyTitle').innerText = t.privacyTitle;
-    document.getElementById('txtPrivacyText').innerText = t.privacyText;
-    document.getElementById('txtPayHeader').innerText = t.payHeader;
-    document.getElementById('txtPayDesc').innerText = t.payDesc;
-    document.getElementById('txtPayBtn').innerText = t.payBtn;
-    document.getElementById('txtUploadHeader').innerText = t.uploadHeader;
-    document.getElementById('txtCameraBtn').innerText = t.cameraBtn;
-    document.getElementById('txtUploadBtn').innerText = t.uploadBtn;
-    document.getElementById('rawTextInput').placeholder = t.placeholder;
-    document.getElementById('submitBtn').innerText = t.submitBtn;
-    document.getElementById('txtLoaderMain').innerText = t.loaderMain;
-    document.getElementById('txtLoaderSub').innerText = t.loaderSub;
-    document.getElementById('lblDeadline').innerText = t.lblDeadline;
-    document.getElementById('lblAmount').innerText = t.lblAmount;
-    document.getElementById('lblSteps').innerText = t.lblSteps;
-    document.getElementById('lblRisks').innerText = t.lblRisks;
-    document.getElementById('lblReply').innerText = t.lblReply;
+  function toggleLang() {
+    curLangIdx = (curLangIdx + 1) % langs.length;
+    document.getElementById('btnLang').innerText = langs[curLangIdx] + " ▾";
   }
 
-  function handleFileSelect(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    document.getElementById('fileStatus').innerText = "✓ " + file.name;
-
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      loadedBase64 = evt.target.result.split(',')[1];
-    };
-    reader.readAsDataURL(file);
+  function pick(e) {
+    const f = e.target.files[0];
+    if (!f) return;
+    document.getElementById('fn').innerText = "✓ " + f.name;
+    const r = new FileReader();
+    r.onload = ev => b64 = ev.target.result.split(',')[1];
+    r.readAsDataURL(f);
   }
 
-  async function processDocument() {
-    const activeLang = document.getElementById('langSelect').value;
-    const t = translations[activeLang] || translations.sk;
-    const textVal = document.getElementById('rawTextInput').value.trim();
-
-    if (!textVal && !loadedBase64) {
-      alert(t.errNoInput);
+  async function run() {
+    const t = document.getElementById('tx').value.trim();
+    if (!t && !b64) {
+      alert("Najprv prosím nahrajte fotku listu alebo vložte text.");
       return;
     }
-
-    document.getElementById('loadingBox').style.display = 'block';
-    document.getElementById('resultsCard').style.display = 'none';
+    document.getElementById('boxLoad').style.display = 'block';
+    document.getElementById('boxOut').style.display = 'none';
 
     try {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: textVal || null,
-          images: loadedBase64 ? [loadedBase64] : [],
-          lang: t.langName
-        })
+        body: JSON.stringify({ text: t || null, images: b64 ? [b64] : [], lang: langs[curLangIdx].toLowerCase() })
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error || "Chyba spracovania");
+
+      document.getElementById('oOd').innerText = d.odosielatel || '-';
+      document.getElementById('oNad').innerText = d.nadpis || 'Výsledok';
+      document.getElementById('oZhr').innerText = d.zhrnutie || '-';
+      document.getElementById('oTer').innerText = d.termin || 'Neuvedený';
+      document.getElementById('oSum').innerText = d.suma || '0 € / Neuvádza sa';
+      document.getElementById('oHro').innerText = d.hrozi || '-';
+
+      const b = document.getElementById('oNal');
+      b.innerText = d.nalehavost ? d.nalehavost.toUpperCase() : 'NORMÁLNA';
+      b.className = 'badge ' + (d.nalehavost === 'vysoka' ? 'b-hi' : d.nalehavost === 'nizka' ? 'b-lo' : 'b-no');
+
+      const ol = document.getElementById('oKro');
+      ol.innerHTML = '';
+      (d.kroky || []).forEach(k => {
+        const li = document.createElement('li');
+        li.innerText = k;
+        ol.appendChild(li);
       });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Chyba servera (${res.status})`);
-      }
+      document.getElementById('oDe').innerText = d.odpoved_de || '';
+      document.getElementById('oSk').innerText = d.odpoved_preklad ? `(${d.odpoved_preklad})` : '';
 
-      const data = await res.json();
-      displayOutput(data);
-    } catch (error) {
-      alert("Error: " + error.message);
+      document.getElementById('boxOut').style.display = 'block';
+      document.getElementById('boxOut').scrollIntoView({ behavior: 'smooth' });
+    } catch (err) {
+      alert("Chyba: " + err.message);
     } finally {
-      document.getElementById('loadingBox').style.display = 'none';
+      document.getElementById('boxLoad').style.display = 'none';
     }
-  }
-
-  function displayOutput(data) {
-    document.getElementById('resOdosielatel').innerText = data.odosielatel || 'ÚRAD / INŠTITÚCIA';
-    document.getElementById('resNadpis').innerText = data.nadpis || 'Výsledok analýzy';
-    document.getElementById('resZhrnutie').innerText = data.zhrnutie || '-';
-    document.getElementById('resTermin').innerText = data.termin || 'Neuvedený';
-    document.getElementById('resSuma').innerText = data.suma || '0 € / Neuvádza sa';
-    document.getElementById('resHrozi').innerText = data.hrozi || '-';
-
-    const badge = document.getElementById('resNalehavostBadge');
-    if (data.nalehavost === 'vysoka') {
-      badge.innerText = 'VYSOKÁ / HIGH';
-      badge.className = 'result-badge badge-high';
-    } else if (data.nalehavost === 'nizka') {
-      badge.innerText = 'NÍZKA / LOW';
-      badge.className = 'result-badge badge-low';
-    } else {
-      badge.innerText = 'NORMÁLNA / MEDIUM';
-      badge.className = 'result-badge badge-mid';
-    }
-
-    const stepsContainer = document.getElementById('resKrokyList');
-    stepsContainer.innerHTML = '';
-    (data.kroky || []).forEach(step => {
-      const li = document.createElement('li');
-      li.innerText = step;
-      stepsContainer.appendChild(li);
-    });
-
-    document.getElementById('resOdpovedDe').innerText = data.odpoved_de || '';
-    document.getElementById('resOdpovedSk').innerText = data.odpoved_preklad ? `(${data.odpoved_preklad})` : '';
-
-    document.getElementById('resultsCard').style.display = 'block';
-    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth' });
   }
 </script>
-
 </body>
 </html>
