@@ -1,889 +1,701 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>List Jasne · BriefKlar – Úradné listy v Nemecku a Rakúsku</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List Jasne – Preklad a analýza úradných listov</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     :root {
-      --bg: #f8fafc;
-      --sheet: #ffffff;
-      --card-border: #e2e8f0;
-      --ink: #0f172a;
-      --muted: #475569;
-      --subtle: #64748b;
+      --bg: #f4f6f9;
+      --card: #ffffff;
       --primary: #1d4ed8;
       --primary-hover: #1e40af;
-      --primary-soft: #eff6ff;
-      --accent: #0284c7;
-      --success: #15803d;
-      --success-soft: #f0fdf4;
-      --danger: #b91c1c;
-      --danger-soft: #fef2f2;
-      --warning: #b45309;
-      --warning-soft: #fffbeb;
-      --radius: 14px;
-      --font-display: "Space Grotesk", system-ui, sans-serif;
-      --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
-      --font-mono: "JetBrains Mono", monospace;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --danger: #dc2626;
+      --warning-bg: #fef3c7;
+      --warning-text: #92400e;
+      --warning-border: #f59e0b;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    .container { max-width: 680px; margin: 0 auto; padding: 20px 16px 80px; display: flex; flex-direction: column; gap: 18px; }
-    .top-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #0f172a; color: #e2e8f0; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; flex-wrap: wrap; }
-    .trust-badges { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .lang-switcher-wrap { display: flex; align-items: center; gap: 6px; margin-left: auto; }
-    .lang-switcher-wrap select { background: #1e293b; color: #fff; border: 1px solid #334155; border-radius: 8px; padding: 4px 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
-    header.hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 6px; }
-    .logo-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 6px 14px; border-radius: 99px; border: 1px solid rgba(29, 78, 216, 0.15); }
-    .pricing-pill { background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 4px 12px; border-radius: 99px; font-size: 13px; font-weight: 700; margin-top: 4px; }
-    h1 { font-family: var(--font-display); font-size: 32px; line-height: 1.2; color: var(--ink); font-weight: 700; letter-spacing: -0.02em; }
-    .lead { color: var(--muted); font-size: 16px; max-width: 550px; }
-    .tags-bar { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-    .tag-item { font-size: 12px; font-weight: 600; padding: 4px 10px; background: #fff; border: 1px solid var(--card-border); border-radius: 6px; color: var(--subtle); }
-    .callout-box { border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.5; }
-    .disclaimer-box { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
-    .disclaimer-box strong { color: #78350f; font-size: 13.5px; display: block; margin-bottom: 2px; }
-    .security-box { background: var(--success-soft); border: 1px solid #bbf7d0; color: #14532d; }
-    .security-box strong { font-size: 13.5px; display: block; margin-bottom: 2px; }
-    .card { background: var(--sheet); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 24px; box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05); display: flex; flex-direction: column; gap: 18px; }
-    .card-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); }
-    .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 480px) { .upload-grid { grid-template-columns: 1fr; } }
-    .upload-btn-label { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-align: center; background: #fafafa; transition: all 0.15s ease; }
-    .upload-btn-label:hover { border-color: var(--primary); background: var(--primary-soft); }
-    .upload-btn-label input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-    .upload-btn-label .icon { font-size: 26px; }
-    .upload-btn-label b { font-size: 14.5px; color: var(--ink); }
-    .upload-btn-label small { font-size: 12px; color: var(--subtle); }
-    .thumbs-container { display: flex; gap: 10px; flex-wrap: wrap; }
-    .thumb-preview { position: relative; width: 72px; height: 96px; }
-    .thumb-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border); }
-    .thumb-preview .remove-btn { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--danger); color: #fff; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-    label.field-lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--subtle); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-    textarea, select { width: 100%; font-family: inherit; font-size: 14.5px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: #f8fafc; color: var(--ink); }
-    textarea { min-height: 80px; resize: vertical; }
-    .submit-btn { background: var(--primary); color: #fff; font-family: var(--font-body); font-size: 16px; font-weight: 600; border: none; border-radius: 12px; padding: 15px 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25); transition: all 0.15s ease; }
-    .submit-btn:hover:not([disabled]) { background: var(--primary-hover); transform: translateY(-1px); }
-    .submit-btn[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .status-msg { font-size: 13.5px; font-weight: 500; min-height: 20px; text-align: center; }
-    .status-msg.loading { color: var(--primary); }
-    .status-msg.error { color: var(--danger); }
-    .result-sheet { background: #fff; border: 1px solid var(--card-border); border-radius: var(--radius); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); overflow: hidden; display: flex; flex-direction: column; }
-    .result-header { padding: 20px; border-bottom: 1px solid var(--card-border); display: flex; flex-direction: column; gap: 10px; background: #fdfdfd; }
-    .pill { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .pill.vysoka { background: var(--danger-soft); color: var(--danger); }
-    .pill.stredna { background: var(--warning-soft); color: var(--warning); }
-    .pill.nizka { background: var(--success-soft); color: var(--success); }
-    .result-header h2 { font-family: var(--font-display); font-size: 24px; line-height: 1.25; color: var(--ink); }
-    .result-meta { font-size: 14px; color: var(--subtle); }
-    .result-meta b { color: var(--ink); }
-    .result-key-facts { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--card-border); background: #f8fafc; }
-    .key-fact { padding: 16px 20px; display: flex; flex-direction: column; gap: 2px; }
-    .key-fact:first-child { border-right: 1px solid var(--card-border); }
-    .key-fact span { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--subtle); }
-    .key-fact b { font-size: 20px; font-family: var(--font-display); color: var(--ink); }
-    .result-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
-    .result-section h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--subtle); margin-bottom: 6px; }
-    .result-section p { font-size: 15px; color: var(--ink); }
-    .result-section ol { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; }
-    
-    .paywall-block { background: linear-gradient(135deg, #fefce8 0%, #eff6ff 100%); border: 2px solid #3b82f6; border-radius: 14px; padding: 22px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .paywall-block h4 { font-family: var(--font-display); font-size: 20px; color: #1e3a8a; }
-    .paywall-block p { font-size: 14px; color: var(--muted); max-width: 480px; }
-    .revolut-btn { background: #000000; color: #ffffff; font-size: 16px; font-weight: 700; text-decoration: none; padding: 14px 28px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }
-    .revolut-btn:hover { background: #1e293b; }
 
-    .draft-container { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-    .draft-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tab-btn { background: #fff; border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .tab-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .draft-content { white-space: pre-wrap; font-family: var(--font-body); font-size: 14px; line-height: 1.6; background: #fff; border: 1px solid var(--card-border); border-radius: 8px; padding: 14px; }
-    .download-bar { padding: 14px 20px; background: #f1f5f9; border-top: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-    .action-btn-secondary { background: #fff; border: 1px solid var(--card-border); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
-    .reviews-card { background: #fff; border: 1px solid var(--card-border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-    .reviews-card h3 { font-family: var(--font-display); font-size: 16px; font-weight: 700; }
-    .review-item { border-left: 3px solid var(--primary); padding-left: 12px; font-size: 13.5px; color: var(--muted); }
-    .review-item b { display: block; color: var(--ink); font-size: 13px; margin-top: 4px; }
-    footer { text-align: center; font-size: 12.5px; color: var(--subtle); display: flex; flex-direction: column; gap: 6px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #fff;
+      margin-bottom: 14px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .upload-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn-upload {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      border: 2px dashed #93c5fd;
+      background: #eff6ff;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-upload:active {
+      background: #dbeafe;
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    .page-counter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .warning-box {
+      display: none;
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid var(--warning-border);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .error-box {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #f87171;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+    }
+
+    .previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .preview-item {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f9fafb;
+      aspect-ratio: 3 / 4;
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-badge {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .result-section {
+      display: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .badge-vysoka { background: #fee2e2; color: #b91c1c; }
+    .badge-stredna { background: #fef3c7; color: #b45309; }
+    .badge-nizka { background: #dcfce7; color: #15803d; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .meta-box {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .meta-box span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .meta-box strong {
+      font-size: 0.98rem;
+    }
+
+    .result-block {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .result-block h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #1f2937;
+    }
+
+    .steps-list {
+      padding-left: 20px;
+    }
+
+    .steps-list li {
+      margin-bottom: 6px;
+    }
+
+    .reply-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      white-space: pre-wrap;
+      font-size: 0.94rem;
+      margin-top: 6px;
+    }
+
+    .btn-copy {
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #e5e7eb;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .upload-buttons, .meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="top-nav">
-    <div class="trust-badges">
-      <span id="badge-dsgvo">🛡️ Súlad s DSGVO / GDPR</span>
-      <span id="badge-privacy">🔒 Bez ukladania dát</span>
-    </div>
-    <div class="lang-switcher-wrap">
-      <span>🌐 Jazyk:</span>
-      <select id="ui-lang-select" aria-label="Zvoliť jazyk rozhrania">
-        <option value="sk" selected>🇸🇰 Slovenčina</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="ro">🇷🇴 Română</option>
-        <option value="pl">🇵🇱 Polski</option>
-        <option value="hu">🇭🇺 Magyar</option>
-        <option value="cs">🇨🇿 Čeština</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="uk">🇺🇦 Українська</option>
+  <div class="container">
+    <header>
+      <h1>List Jasne</h1>
+      <p>Odfoť alebo nahraj nemecký úradný list (max. 5 strán)</p>
+    </header>
+
+    <div class="card">
+      <label for="langSelect">Jazyk vysvetlenia a prekladu:</label>
+      <select id="langSelect">
+        <option value="slovenčina" selected>🇸🇰 Slovenčina</option>
+        <option value="čeština">🇨🇿 Čeština</option>
+        <option value="poľština">🇵🇱 Polski (Poľština)</option>
+        <option value="ukrajinčina">🇺🇦 Українська (Ukrajinčina)</option>
+        <option value="maďarčina">🇭🇺 Magyar (Maďarčina)</option>
+        <option value="rumunčina">🇷🇴 Română (Rumunčina)</option>
+        <option value="chorvátčina">🇭🇷 Hrvatski (Chorvátčina)</option>
+        <option value="angličtina">🇬🇧 English (Angličtina)</option>
       </select>
-    </div>
-  </div>
 
-  <header class="hero">
-    <div class="logo-badge">✉️ List Jasne · BriefKlar</div>
-    <div class="pricing-pill" id="pricing-banner">🎁 Prvé 2 analýzy ZADARMO • potom 2,49 €</div>
-    <h1 id="hero-title">Rozumiem úradnému listu</h1>
-    <p class="lead" id="hero-lead">Prišiel vám nemecký list z Rakúska alebo Nemecka a neviete, čo znamená? Odfoťte ho. Zistíte, čo presne žiadajú, dokedy treba odpovedať a dostanete hotovú nemeckú odpoveď.</p>
-    <div class="tags-bar">
-      <span class="tag-item">SVS / Krankenkasse</span>
-      <span class="tag-item">Finanzamt (Steuern)</span>
-      <span class="tag-item">ÖGK / AOK</span>
-      <span class="tag-item">WKO / IHK</span>
-      <span class="tag-item">Kindergeld / Familienbeihilfe</span>
-      <span class="tag-item">Mahnung / Inkasso</span>
-    </div>
-  </header>
+      <div class="upload-buttons">
+        <!-- Priame fotenie fotoaparátom v mobile -->
+        <label class="btn-upload" for="cameraInput">
+          📷 Odfotiť list
+        </label>
+        <input
+          id="cameraInput"
+          class="hidden-input"
+          type="file"
+          accept="image/*"
+          capture="environment"
+        />
 
-  <div class="paywall-block" id="top-paywall" style="display: none;">
-    <h4 id="top-paywall-h">Vyčerpali ste 2 bezplatné analýzy</h4>
-    <p id="top-paywall-p">Pre pokračovanie a analýzu ďalších dokumentov uhraďte 2,49 € cez Revolut Pay:</p>
-    <a href="https://checkout.revolut.com/pay/b3bcd40e-46f6-4f94-96a2-8acbd21dcbbd" target="_blank" class="revolut-btn" id="top-paywall-btn">
-      💳 Zaplatiť 2,49 € cez Revolut
-    </a>
-  </div>
-
-  <div class="callout-box disclaimer-box">
-    <div style="font-size: 20px;">⚖️</div>
-    <div>
-      <strong id="disc-title">Upozornenie: Nejde o právne ani daňové poradenstvo</strong>
-      <span id="disc-desc">Tento nástroj poskytuje informatívny preklad a orientačné zhrnutie pomocou umelej inteligencie. Nenahrádza odbornú právnu pomoc advokáta ani daňového poradcu (Steuerberater). V sporných, exekučných alebo súdnych prípadoch sa obráťte na Arbeiterkammer (AK) alebo odborníka.</span>
-    </div>
-  </div>
-
-  <div class="callout-box security-box">
-    <div style="font-size: 20px;">🔐</div>
-    <div>
-      <strong id="sec-title">Vaše súkromie a údaje sú chránené</strong>
-      <span id="sec-desc">Meno, rodné číslo ani adresu neukladáme. Po zatvorení stránky sa odfotený list z pamäte navždy zmaže.</span>
-    </div>
-  </div>
-
-  <section class="card" id="upload-panel">
-    <div class="card-title" id="form-step1">1. Nahrajte alebo odfoťte list</div>
-    <div class="upload-grid">
-      <label class="upload-btn-label" for="cam-input">
-        <input id="cam-input" type="file" accept="image/*" capture="environment">
-        <span class="icon">📷</span>
-        <b id="btn-cam-title">Odfotiť mobilom</b>
-        <small id="btn-cam-sub">Otvorí kameru telefónu</small>
-      </label>
-      <label class="upload-btn-label" for="file-input">
-        <input id="file-input" type="file" accept="image/*,application/pdf" multiple>
-        <span class="icon">📁</span>
-        <b id="btn-file-title">Nahrať fotku alebo PDF</b>
-        <small id="btn-file-sub">Z galérie alebo súborov</small>
-      </label>
-    </div>
-    <div class="thumbs-container" id="thumbs-container"></div>
-    <div>
-      <label class="field-lbl" for="letter-text" id="lbl-text">Alebo sem vložte text listu:</label>
-      <textarea id="letter-text" placeholder="Sehr geehrte Damen und Herren, wir schreiben Ihnen bezüglich..."></textarea>
-    </div>
-    <div style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 140px;">
-        <label class="field-lbl" for="lang-select" id="lbl-lang">Jazyk vysvetlenia:</label>
-        <select id="lang-select">
-          <option value="slovenčina" data-code="sk" selected>Slovenčina (SK)</option>
-          <option value="Deutsch" data-code="de">Deutsch (DE)</option>
-          <option value="română" data-code="ro">Română (RO)</option>
-          <option value="polski" data-code="pl">Polski (PL)</option>
-          <option value="magyar" data-code="hu">Magyar (HU)</option>
-          <option value="čeština" data-code="cs">Čeština (CZ)</option>
-          <option value="English" data-code="en">English (EN)</option>
-          <option value="українська" data-code="uk">Українська (UA)</option>
-        </select>
+        <!-- Výber fotiek z galérie alebo viacstranového PDF -->
+        <label class="btn-upload" for="fileInput">
+          📄 Nahrať foto / PDF
+        </label>
+        <input
+          id="fileInput"
+          class="hidden-input"
+          type="file"
+          accept="image/*,application/pdf"
+          multiple
+        />
       </div>
-      <button class="submit-btn" id="analyze-btn" style="flex: 1.5; min-width: 180px;">
-        🔍 <span id="btn-submit-text">Vysvetliť úradný list</span>
-      </button>
-    </div>
-    <div class="status-msg" id="status-msg"></div>
-  </section>
 
-  <section class="result-sheet" id="result-sheet" aria-live="polite"></section>
+      <div class="page-counter">
+        <span id="pageCountLabel">Nahraté strany: 0 / 5</span>
+        <span id="processingStatus"></span>
+      </div>
 
-  <div class="reviews-card">
-    <h3 id="rev-title">Skúsenosti ľudí pracujúcich v Rakúsku a Nemecku:</h3>
-    <div class="review-item">
-      <span id="rev1-text">„Z SVS mi prišiel list na 850 € a bola som zúfalá. List Jasne mi za minútu vysvetlil, že stačí požiadať o splátky, vygeneroval mi nemecký text a úrad to bez problémov schválil.“</span>
-      <b id="rev1-author">— Elena V., opatrovateľka (Linz, Rakúsko)</b>
+      <div id="warningBox" class="warning-box"></div>
+      <div id="errorBox" class="error-box"></div>
+
+      <div id="previews" class="previews"></div>
+
+      <label for="textInput">Alebo vložte text listu (voliteľné):</label>
+      <textarea
+        id="textInput"
+        placeholder="Sem môžete skopírovať text z e-mailu alebo listu..."
+      ></textarea>
+
+      <button id="submitBtn" class="btn-submit">Analyzovať a preložiť list</button>
     </div>
-    <div class="review-item">
-      <span id="rev2-text">„Úradná nemčina je ťažká aj po rokoch. Vždy keď príde list zo Salzburgu alebo Mníchova, hneď ho sem hodím. Ušetrilo mi to kopec stresu a peňazí za prekladateľa.“</span>
-      <b id="rev2-author">— Peter M., montér (Mníchov, Nemecko)</b>
+
+    <!-- Výsledok analýzy -->
+    <div id="resultSection" class="card result-section">
+      <div id="urgencyBadge" class="badge"></div>
+      <h2 id="resTitle" style="margin-bottom: 4px;"></h2>
+      <p id="resSender" style="color: var(--muted); font-size: 0.92rem;"></p>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <span>Termín / Splatnosť</span>
+          <strong id="resDeadline">-</strong>
+        </div>
+        <div class="meta-box">
+          <span>Suma na úhradu</span>
+          <strong id="resAmount">-</strong>
+        </div>
+      </div>
+
+      <div class="result-block">
+        <h3>Zrozumiteľné vysvetlenie</h3>
+        <p id="resSummary"></p>
+      </div>
+
+      <div class="result-block">
+        <h3>Čo musíte urobiť</h3>
+        <ol id="resSteps" class="steps-list"></ol>
+      </div>
+
+      <div class="result-block">
+        <h3>Čo hrozí pri nečinnosti</h3>
+        <p id="resRisk"></p>
+      </div>
+
+      <div class="result-block">
+        <h3>Návrh oficiálnej odpovede (po nemecky)</h3>
+        <div id="resReplyDe" class="reply-box"></div>
+        <button id="copyBtn" class="btn-copy" type="button">📋 Kopírovať odpoveď v nemčine</button>
+      </div>
+
+      <div class="result-block">
+        <h3>Preklad odpovede</h3>
+        <div id="resReplyTranslated" class="reply-box"></div>
+      </div>
     </div>
   </div>
 
-  <footer>
-    <p id="footer-text1">Aplikácia List Jasne · BriefKlar · Digitálny asistent pre pracujúcich v Rakúsku a Nemecku.</p>
-    <p id="footer-text2">Vysvetlenie slúži na rýchlu orientáciu. V zložitých súdnych či exekučných konaniach kontaktujte príslušné inštitúcie.</p>
-  </footer>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-<script>
-const REVOLUT_PAY_URL = "https://checkout.revolut.com/pay/b3bcd40e-46f6-4f94-96a2-8acbd21dcbbd";
-const MAX_FREE_USES = 2;
-
-const I18N = {
-  sk: {
-    badgeDsgvo: "🛡️ Súlad s DSGVO / GDPR",
-    badgePrivacy: "🔒 Bez ukladania dát",
-    pricingBanner: "🎁 Prvé 2 analýzy ZADARMO • potom 2,49 €",
-    heroTitle: "Rozumiem úradnému listu",
-    heroLead: "Prišiel vám nemecký list z Rakúska alebo Nemecka a neviete, čo znamená? Odfoťte ho. Zistíte, čo presne žiadajú, dokedy treba odpovedať a dostanete hotovú nemeckú odpoveď.",
-    discTitle: "Upozornenie: Nejde o právne ani daňové poradenstvo",
-    discDesc: "Tento nástroj poskytuje informatívny preklad a orientačné zhrnutie pomocou umelej inteligencie. Nenahrádza odbornú právnu pomoc advokáta ani daňového poradcu (Steuerberater). V sporných, exekučných alebo súdnych prípadoch sa obráťte na Arbeiterkammer (AK) alebo odborníka.",
-    secTitle: "Vaše súkromie a údaje sú chránené",
-    secDesc: "Meno, rodné číslo ani adresu neukladáme. Po zatvorení stránky sa odfotený list z pamäte navždy zmaže.",
-    formStep1: "1. Nahrajte alebo odfoťte list",
-    camTitle: "Odfotiť mobilom",
-    camSub: "Otvorí kameru telefónu",
-    fileTitle: "Nahrať fotku alebo PDF",
-    fileSub: "Z galérie alebo súborov",
-    lblText: "Alebo sem vložte text listu:",
-    lblLang: "Jazyk vysvetlenia:",
-    submitBtn: "Vysvetliť úradný list",
-    revTitle: "Skúsenosti ľudí pracujúcich v Rakúsku a Nemecku:",
-    rev1: "„Z SVS mi prišiel list na 850 € a bola som zúfalá. List Jasne mi za minútu vysvetlil, že stačí požiadať o splátky, vygeneroval mi nemecký text a úrad to bez problémov schválil.“",
-    rev1Auth: "— Elena V., opatrovateľka (Linz, Rakúsko)",
-    rev2: "„Úradná nemčina je ťažká aj po rokoch. Vždy keď príde list zo Salzburgu alebo Mníchova, hneď ho sem hodím. Ušetrilo mi to kopec stresu a peňazí za prekladateľa.“",
-    rev2Auth: "— Peter M., montér (Mníchov, Nemecko)",
-    footer1: "Aplikácia List Jasne · BriefKlar · Digitálny asistent pre pracujúcich v Rakúsku a Nemecku.",
-    footer2: "Vysvetlenie slúži na rýchlu orientáciu. V zložitých súdnych či exekučných konaniach kontaktujte príslušné inštitúcie.",
-    sender: "Odosielateľ listu",
-    deadline: "Konečný termín (Lehota)",
-    amount: "Suma k úhrade",
-    whatIsIt: "Lopatistické vysvetlenie (O čo ide)",
-    whatToDo: "Čo presne máte spraviť (Krok za krokom)",
-    whatIfIgnore: "Čo hrozí pri nečinnosti",
-    lawyerWarn: "⚠️ Tento prípad vyžaduje priamu pozornosť odborníka alebo právneho poradcu.",
-    paywallHead: "Vyčerpali ste 2 bezplatné analýzy",
-    paywallDesc: "Pre pokračovanie a analýzu ďalších dokumentov uhraďte 2,49 € cez Revolut Pay:",
-    paywallBtn: "Zaplatiť 2,49 € cez Revolut",
-    deTab: "Deutsch (Originál)",
-    transTab: "Slovenský preklad",
-    copyBtn: "📋 Skopírovať text",
-    copied: "✅ Skopírované",
-    dlBtn: "📥 Stiahnuť súhrn (.TXT)",
-    errNoInput: "Najprv odfoťte list, nahrajte súbor alebo vložte text.",
-    freeRemaining: "zadarmo"
-  },
-  de: {
-    badgeDsgvo: "🛡️ DSGVO-konform",
-    badgePrivacy: "🔒 Keine Datenspeicherung",
-    pricingBanner: "🎁 Die ersten 2 Analysen GRATIS • danach 2,49 €",
-    heroTitle: "Behördenbriefe sofort verstehen",
-    heroLead: "Sie haben einen behördlichen Brief (SVS, Finanzamt, Krankenkasse) erhalten und sind unsicher? Foto hochladen: Sie erfahren sofort, was verlangt wird, bis wann und erhalten ein fertiges deutsches Antwortschreiben.",
-    discTitle: "Wichtiger Hinweis: Keine Rechts- oder Steuerberatung",
-    discDesc: "Dieses Tool bietet eine automatisierte Übersetzung und Orientierungshilfe mittels KI. Es ersetzt keine fachliche Beratung.",
-    secTitle: "Ihre Daten sind geschützt",
-    secDesc: "Wir speichern keine persönlichen Daten. Nach dem Verlassen der Seite wird das Dokument sofort gelöscht.",
-    formStep1: "1. Brief hochladen oder fotografieren",
-    camTitle: "Mit Smartphone fotografieren",
-    camSub: "Öffnet die Handykamera",
-    fileTitle: "Foto oder PDF hochladen",
-    fileSub: "Aus Galerie oder Dateien",
-    lblText: "Oder Text direkt eingeben:",
-    lblLang: "Erklärungssprache:",
-    submitBtn: "Brief jetzt analysieren",
-    revTitle: "Erfahrungen von Nutzern:",
-    rev1: "„Sehr hilfreich bei bürokratischen Formularen von Finanzamt und SVS.“",
-    rev1Auth: "— Elena V. (Linz, Österreich)",
-    rev2: "„Spart viel Zeit und Übersetzungsaufwand.“",
-    rev2Auth: "— Peter M. (München, Deutschland)",
-    footer1: "BriefKlar · Digitaler Assistent für Behördenpost in DACH.",
-    footer2: "Dient der schnellen Orientierung.",
-    sender: "Absender",
-    deadline: "Frist / Termin",
-    amount: "Fälliger Betrag",
-    whatIsIt: "Verständliche Zusammenfassung",
-    whatToDo: "Schritt-für-Schritt Handlung",
-    whatIfIgnore: "Konsequenzen bei Nichtbeachtung",
-    lawyerWarn: "⚠️ Dieser Fall erfordert möglicherweise rechtliche Beratung.",
-    paywallHead: "Sie haben 2 kostenlose Analysen aufgebraucht",
-    paywallDesc: "Für weitere Analysen zahlen Sie 2,49 € via Revolut Pay:",
-    paywallBtn: "Freischalten für 2,49 € via Revolut",
-    deTab: "Deutsch (Vorlage)",
-    transTab: "Übersetzung",
-    copyBtn: "📋 Text kopieren",
-    copied: "✅ Kopiert",
-    dlBtn: "📥 Herunterladen (.TXT)",
-    errNoInput: "Bitte zuerst ein Dokument fotografieren oder Text eingeben.",
-    freeRemaining: "kostenlos"
-  },
-  ro: {
-    badgeDsgvo: "🛡️ Conformitate GDPR",
-    badgePrivacy: "🔒 Fără stocare de date",
-    pricingBanner: "🎁 Primele 2 analize GRATIS • apoi 2,49 €",
-    heroTitle: "Înțelege scrisoarea oficială",
-    heroLead: "Ați primit o scrisoare din Austria sau Germania? Încărcați o fotografie pentru a afla termenele, sumele datorate și răspunsul pregătit în germană.",
-    discTitle: "Atenție: Nu reprezintă consultanță juridică",
-    discDesc: "Acest instrument oferă doar traducere și sinteză orientativă prin inteligență artificială.",
-    secTitle: "Confidențialitatea datelor",
-    secDesc: "Datele dvs. nu sunt stocate. Fotografia se șterge automat.",
-    formStep1: "1. Încărcați sau fotografiați scrisoarea",
-    camTitle: "Fotografiază cu telefonul",
-    camSub: "Deschide camera",
-    fileTitle: "Încarcă poză sau PDF",
-    fileSub: "Din galerie sau fișiere",
-    lblText: "Sau introduceți textul aici:",
-    lblLang: "Limba explicației:",
-    submitBtn: "Analizează scrisoarea",
-    revTitle: "Recenzii de la lucrători:",
-    rev1: "„Am înțeles imediat ce dorea Finanzamt fără traducători scumpi.”",
-    rev1Auth: "— Maria I. (Viena)",
-    rev2: "„Un ajutor fantastic pentru germana administrativă.”",
-    rev2Auth: "— Dan S. (Nürnberg)",
-    footer1: "List Jasne · BriefKlar pentru diaspora.",
-    footer2: "Serviciu orientativ de traducere.",
-    sender: "Expeditor",
-    deadline: "Termen limită",
-    amount: "Sumă de plată",
-    whatIsIt: "Explicație simplificată",
-    whatToDo: "Ce trebuie să faceți",
-    whatIfIgnore: "Consecințe",
-    lawyerWarn: "⚠️ Se recomandă consultarea unui specialist.",
-    paywallHead: "Ați folosit cele 2 analize gratuite",
-    paywallDesc: "Pentru următoarele analize achitați 2,49 € prin Revolut Pay:",
-    paywallBtn: "Deblochează cu 2,49 € prin Revolut",
-    deTab: "Germană (Original)",
-    transTab: "Traducere în română",
-    copyBtn: "📋 Copiază textul",
-    copied: "✅ Copiat",
-    dlBtn: "📥 Descarcă (.TXT)",
-    errNoInput: "Vă rugăm să încărcați o poză sau un text.",
-    freeRemaining: "gratis"
-  },
-  pl: {
-    badgeDsgvo: "🛡️ Zgodność z RODO",
-    badgePrivacy: "🔒 Bez zapisywania danych",
-    pricingBanner: "🎁 Pierwsze 2 analizy GRATIS • potem 2,49 €",
-    heroTitle: "Zrozum pismo urzędowe",
-    heroLead: "Otrzymałeś pismo urzędowe z Niemiec lub Austrii? Zrób zdjęcie i dowiedz się natychmiast o terminach, kwotach i gotowej odpowiedzi.",
-    discTitle: "Uwaga: To nie jest porada prawna",
-    discDesc: "Narzędzie służy wyłącznie celom informacyjnym z wykorzystaniem AI.",
-    secTitle: "Prywatność i bezpieczeństwo",
-    secDesc: "Twoje dokumenty są usuwane natychmiast po przetworzeniu.",
-    formStep1: "1. Wgraj lub zrób zdjęcie pisma",
-    camTitle: "Zrób zdjęcie",
-    camSub: "Uruchamia aparat",
-    fileTitle: "Wgraj zdjęcie lub PDF",
-    fileSub: "Z pamięci telefonu",
-    lblText: "Lub wklej treść pisma:",
-    lblLang: "Język wyjaśnienia:",
-    submitBtn: "Wyjaśnij pismo",
-    revTitle: "Opinie użytkowników:",
-    rev1: "„W końcu wiem, o co chodzi w pismach z Finanzamt.”",
-    rev1Auth: "— Anna K. (Berlin)",
-    rev2: "„Szybko, prosto i bez stresu.”",
-    rev2Auth: "— Tomasz B. (Graz)",
-    footer1: "BriefKlar · Asystent urzędowy.",
-    footer2: "Tłumaczenie ma charakter informacyjny.",
-    sender: "Nadawca",
-    deadline: "Termin ostateczny",
-    amount: "Kwota do zapłaty",
-    whatIsIt: "Proste wyjaśnienie",
-    whatToDo: "Instrukcja krok po kroku",
-    whatIfIgnore: "Konsekwencje braku reakcji",
-    lawyerWarn: "⚠️ Wymaga ewentualnej konsultacji prawnej.",
-    paywallHead: "Wykorzystałeś 2 darmowe analizy",
-    paywallDesc: "Aby kontynuować, zapłać 2,49 € przez Revolut Pay:",
-    paywallBtn: "Odblokuj za 2,49 € przez Revolut",
-    deTab: "Niemiecki (Wzór)",
-    transTab: "Tłumaczenie",
-    copyBtn: "📋 Skopiuj",
-    copied: "✅ Skopiowano",
-    dlBtn: "📥 Pobierz (.TXT)",
-    errNoInput: "Najpierw zrób zdjęcie lub wklej tekst.",
-    freeRemaining: "gratis"
-  },
-  hu: {
-    badgeDsgvo: "🛡️ GDPR-megfelelőség",
-    badgePrivacy: "🔒 Adatmentés nélkül",
-    pricingBanner: "🎁 Első 2 elemzés INGYENES • utána 2,49 €",
-    heroTitle: "Értse meg a hivatalos levelet",
-    heroLead: "Német vagy osztrák hivatalos levelet kapott? Fotózza le, és kapjon azonnali összefoglalót és német válaszlevelet.",
-    discTitle: "Figyelmeztetés: Nem jogi tanácsadás",
-    discDesc: "Tájékoztató jellegű összefoglaló AI segítségével.",
-    secTitle: "Adatvédelem",
-    secDesc: "A dokumentumok azonnal törlődnek.",
-    formStep1: "1. Töltse fel vagy fotózza le a levelet",
-    camTitle: "Fotózás mobillal",
-    camSub: "Megnyitja a kamerát",
-    fileTitle: "Kép vagy PDF feltöltése",
-    fileSub: "Fájlok közül",
-    lblText: "Vagy másolja be a szöveget ide:",
-    lblLang: "Magyarázat nyelve:",
-    submitBtn: "Levél magyarázata",
-    revTitle: "Tapasztalatok:",
-    rev1: "„Gyors segítség a hivatalos ügyekben.”",
-    rev1Auth: "— Katalin N. (Bécs)",
-    rev2: "„Pontos fordítás és kész válaszlevél.”",
-    rev2Auth: "— Zoltán P. (Salzburg)",
-    footer1: "BriefKlar digitális segítség.",
-    footer2: "Tájékoztató jellegű felület.",
-    sender: "Feladó",
-    deadline: "Határidő",
-    amount: "Fizetendő összeg",
-    whatIsIt: "Egyszerű magyarázat",
-    whatToDo: "Teendők lépésről lépésre",
-    whatIfIgnore: "Következmények",
-    lawyerWarn: "⚠️ Jogi tanácsadó bevonása javasolt lehet.",
-    paywallHead: "Felhasználta a 2 ingyenes elemzést",
-    paywallDesc: "Fizessen 2,49 €-t Revoluttal a folytatáshoz:",
-    paywallBtn: "Feloldás 2,49 €-ért Revoluttal",
-    deTab: "Német (Eredeti)",
-    transTab: "Magyar fordítás",
-    copyBtn: "📋 Másolás",
-    copied: "✅ Másolva",
-    dlBtn: "📥 Letöltés (.TXT)",
-    errNoInput: "Kérjük, töltsön fel képet vagy szöveget.",
-    freeRemaining: "ingyenes"
-  },
-  cs: {
-    badgeDsgvo: "🛡️ Soulad s GDPR",
-    badgePrivacy: "🔒 Bez ukládání dat",
-    pricingBanner: "🎁 První 2 analýzy ZDARMA • pak 2,49 €",
-    heroTitle: "Rozumím úřednímu dopisu",
-    heroLead: "Přišel vám německý dopis z Rakouska nebo Německa a nevíte, co znamená? Vyfoťte jej. Zjistíte termíny, částky a obdržíte hotovou německou odpověď.",
-    discTitle: "Upozornění: Nejedná se o právní poradenství",
-    discDesc: "Informativní shrnutí pomocí AI. Nenahrazuje právní pomoc advokáta.",
-    secTitle: "Vaše soukromí je chráněno",
-    secDesc: "Dokument se po zavření stránky maže.",
-    formStep1: "1. Nahrajte nebo vyfoťte dopis",
-    camTitle: "Vyfotit mobilem",
-    camSub: "Spustí fotoaparát",
-    fileTitle: "Nahrát foto nebo PDF",
-    fileSub: "Ze souborů v telefonu",
-    lblText: "Nebo sem vložte text dopisu:",
-    lblLang: "Jazyk vysvětlení:",
-    submitBtn: "Vysvětlit úřední dopis",
-    revTitle: "Zkušenosti uživatelů:",
-    rev1: "„Ušetřilo mi to spoustu peněz za překlady.“",
-    rev1Auth: "— Pavel R. (Pasov)",
-    rev2: "„Rychlé, přehledné a s odpovědí rovnou k odeslání.“",
-    rev2Auth: "— Lucie H. (Linec)",
-    footer1: "List Jasne · BriefKlar.",
-    footer2: "Informativní orientační nástroj.",
-    sender: "Odesílatel",
-    deadline: "Termín (Lhůta)",
-    amount: "Částka k úhradě",
-    whatIsIt: "Jednoduché vysvětlení",
-    whatToDo: "Co přesně musíte udělat",
-    whatIfIgnore: "Co hrozí při nečinnosti",
-    lawyerWarn: "⚠️ Případ může vyžadovat právní posouzení.",
-    paywallHead: "Využili jste 2 bezplatné analýzy",
-    paywallDesc: "Pro další rozbory uhraďte 2,49 € přes Revolut Pay:",
-    paywallBtn: "Odemknout za 2,49 € přes Revolut",
-    deTab: "Německy (Vzor)",
-    transTab: "Český překlad",
-    copyBtn: "📋 Zkopírovat",
-    copied: "✅ Zkopírováno",
-    dlBtn: "📥 Stáhnout (.TXT)",
-    errNoInput: "Nejprve vyfoťte dopis nebo vložte text.",
-    freeRemaining: "zdarma"
-  },
-  en: {
-    badgeDsgvo: "🛡️ GDPR Compliant",
-    badgePrivacy: "🔒 Zero Data Retention",
-    pricingBanner: "🎁 First 2 Analyses FREE • then 2.49 €",
-    heroTitle: "Understand Official Letters",
-    heroLead: "Received an official letter from Germany or Austria? Snap a photo to extract deadlines, required amounts, and get a drafted response in German.",
-    discTitle: "Notice: Not Legal or Tax Advice",
-    discDesc: "Automated summaries using AI. Does not replace official counsel.",
-    secTitle: "Your Privacy is Protected",
-    secDesc: "Uploaded letters are permanently deleted after processing.",
-    formStep1: "1. Upload or photograph your letter",
-    camTitle: "Take a photo",
-    camSub: "Uses device camera",
-    fileTitle: "Upload image or PDF",
-    fileSub: "From your device",
-    lblText: "Or paste the letter text here:",
-    lblLang: "Explanation Language:",
-    submitBtn: "Explain Document",
-    revTitle: "User Testimonials:",
-    rev1: "„Helped me deal with SVS effortlessly.“",
-    rev1Auth: "— Elena V. (Linz)",
-    rev2: "„Fast, reliable and actionable summaries.“",
-    rev2Auth: "— Peter M. (Munich)",
-    footer1: "BriefKlar official letter assistant.",
-    footer2: "Informative orientation tool.",
-    sender: "Sender",
-    deadline: "Deadline",
-    amount: "Amount Due",
-    whatIsIt: "Plain Explanation",
-    whatToDo: "Action Steps",
-    whatIfIgnore: "Consequences of Inaction",
-    lawyerWarn: "⚠️ May require professional legal attention.",
-    paywallHead: "You have used your 2 free analyses",
-    paywallDesc: "Pay 2.49 € via Revolut to continue analyzing letters:",
-    paywallBtn: "Unlock for 2.49 € via Revolut",
-    deTab: "German (Original)",
-    transTab: "English Translation",
-    copyBtn: "📋 Copy Text",
-    copied: "✅ Copied",
-    dlBtn: "📥 Download (.TXT)",
-    errNoInput: "Please capture or paste a document first.",
-    freeRemaining: "free"
-  },
-  uk: {
-    badgeDsgvo: "🛡️ Відповідність GDPR",
-    badgePrivacy: "🔒 Без збереження даних",
-    pricingBanner: "🎁 Перші 2 аналізи БЕЗКОШТОВНО • далі 2,49 €",
-    heroTitle: "Зрозумійте офіційний лист",
-    heroLead: "Отримали лист з Німеччини або Австрії? Сфотографуйте його, щоб дізнатися терміни, суми до сплати та отримати німецьку відповідь.",
-    discTitle: "Попередження: Не є консультацією",
-    discDesc: "Інформаційний аналіз за допомогою штучного інтелекту.",
-    secTitle: "Захист даних",
-    secDesc: "Файли видаляються одразу після обробки.",
-    formStep1: "1. Завантажте або сфотографуйте лист",
-    camTitle: "Сфотографувати телефоном",
-    camSub: "Відкриває камеру",
-    fileTitle: "Завантажити фото або PDF",
-    fileSub: "З галереї чи файлів",
-    lblText: "Або вставте текст листа сюди:",
-    lblLang: "Мова пояснення:",
-    submitBtn: "Пояснити лист",
-    revTitle: "Відгуки користувачів:",
-    rev1: "„Дуже допомогло розібратися з листом.“",
-    rev1Auth: "— Олена В. (Відень)",
-    rev2: "„Швидко і зрозуміло, готовий шаблон відповіді.“",
-    rev2Auth: "— Петро М. (Мюнхен)",
-    footer1: "List Jasne · BriefKlar.",
-    footer2: "Інформаційний переклад.",
-    sender: "Відправник",
-    deadline: "Кінцевий термін",
-    amount: "Сума до сплати",
-    whatIsIt: "Просте пояснення",
-    whatToDo: "Покрокові дії",
-    whatIfIgnore: "Наслідки бездіяльності",
-    lawyerWarn: "⚠️ Рекомендується консультація юриста.",
-    paywallHead: "Ви використали 2 безкоштовні аналізи",
-    paywallDesc: "Оплатіть 2,49 € через Revolut для продовження:",
-    paywallBtn: "Розблокувати за 2,49 € через Revolut",
-    deTab: "Німецька (Зразок)",
-    transTab: "Український переклад",
-    copyBtn: "📋 Скопіювати",
-    copied: "✅ Скопійовано",
-    dlBtn: "📥 Завантажити (.TXT)",
-    errNoInput: "Будь ласка, завантажте фото або вставте текст.",
-    freeRemaining: "безкоштовно"
-  }
-};
-
-let uploadedFiles = [];
-let currentLang = 'sk';
-let activeDraftTab = 'de';
-let currentAnalysisData = null;
-
-function getUsageCount() {
-  return parseInt(localStorage.getItem('list_jasne_usage') || '0', 10);
-}
-
-function incrementUsageCount() {
-  const current = getUsageCount();
-  localStorage.setItem('list_jasne_usage', (current + 1).toString());
-  updateUIUsage();
-}
-
-function updateUIUsage() {
-  const used = getUsageCount();
-  const remaining = Math.max(0, MAX_FREE_USES - used);
-  const btnTextSpan = document.getElementById('btn-submit-text');
-  const topPaywall = document.getElementById('top-paywall');
-  const t = I18N[currentLang] || I18N.sk;
-
-  if (used >= MAX_FREE_USES) {
-    btnTextSpan.textContent = t.paywallBtn;
-    topPaywall.style.display = 'flex';
-  } else {
-    btnTextSpan.textContent = `${t.submitBtn} (${remaining}/${MAX_FREE_USES} ${t.freeRemaining})`;
-    topPaywall.style.display = 'none';
-  }
-}
-
-function setLanguage(code) {
-  if (!I18N[code]) return;
-  currentLang = code;
-  const t = I18N[code];
-
-  document.getElementById('badge-dsgvo').textContent = t.badgeDsgvo;
-  document.getElementById('badge-privacy').textContent = t.badgePrivacy;
-  document.getElementById('pricing-banner').textContent = t.pricingBanner;
-  document.getElementById('hero-title').textContent = t.heroTitle;
-  document.getElementById('hero-lead').textContent = t.heroLead;
-  document.getElementById('disc-title').textContent = t.discTitle;
-  document.getElementById('disc-desc').textContent = t.discDesc;
-  document.getElementById('sec-title').textContent = t.secTitle;
-  document.getElementById('sec-desc').textContent = t.secDesc;
-  document.getElementById('form-step1').textContent = t.formStep1;
-  document.getElementById('btn-cam-title').textContent = t.camTitle;
-  document.getElementById('btn-cam-sub').textContent = t.camSub;
-  document.getElementById('btn-file-title').textContent = t.fileTitle;
-  document.getElementById('btn-file-sub').textContent = t.fileSub;
-  document.getElementById('lbl-text').textContent = t.lblText;
-  document.getElementById('lbl-lang').textContent = t.lblLang;
-  document.getElementById('rev-title').textContent = t.revTitle;
-  document.getElementById('rev1-text').textContent = t.rev1;
-  document.getElementById('rev1-author').textContent = t.rev1Auth;
-  document.getElementById('rev2-text').textContent = t.rev2;
-  document.getElementById('rev2-author').textContent = t.rev2Auth;
-  document.getElementById('footer-text1').textContent = t.footer1;
-  document.getElementById('footer-text2').textContent = t.footer2;
-
-  document.getElementById('top-paywall-h').textContent = t.paywallHead;
-  document.getElementById('top-paywall-p').textContent = t.paywallDesc;
-  document.getElementById('top-paywall-btn').textContent = "💳 " + t.paywallBtn;
-
-  const targetSelect = document.getElementById('lang-select');
-  for (let i = 0; i < targetSelect.options.length; i++) {
-    if (targetSelect.options[i].getAttribute('data-code') === code) {
-      targetSelect.selectedIndex = i;
-      break;
+  <script>
+    // Nastavenie PDF.js worker-a
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
-  }
 
-  updateUIUsage();
+    const MAX_PAGES = 5;
+    let pages = []; // Pole zmenšených Base64 JPEG obrázkov (fotky aj strany PDF)
+    let limitExceededActive = false;
 
-  if (currentAnalysisData) {
-    renderResult(currentAnalysisData);
-  }
-}
+    // Upozornenia o limite 5 strán vo všetkých 8 jazykoch
+    const LIMIT_WARNINGS = {
+      'slovenčina': '⚠️ Upozornenie: Maximálny limit je 5 strán na jeden list (fotografie a PDF spolu). Spracovaných bolo prvých 5 strán.',
+      'čeština': '⚠️ Upozornění: Maximální limit je 5 stran na jeden dopis (fotografie i PDF dohromady). Zpracováno bylo prvních 5 stran.',
+      'poľština': '⚠️ Uwaga: Maksymalny limit to 5 stron na jeden list (zdjęcia i PDF łącznie). Przetworzono pierwsze 5 stron.',
+      'ukrajinčina': '⚠️ Увага: Максимальний ліміт — 5 сторінок на один лист (фото та PDF разом). Оброблено перші 5 сторінок.',
+      'maďarčina': '⚠️ Figyelem: A maximális korlát 5 oldal levelenként (fotók és PDF együtt). Az első 5 oldal került feldolgozásra.',
+      'rumunčina': '⚠️ Atenție: Limita maximă este de 5 pagini per scrisoare (fotografii și PDF împreună). Au fost procesate primele 5 pagini.',
+      'chorvátčina': '⚠️ Upozorenje: Maksimalno ograničenje je 5 stranica po pismu (fotografije i PDF zajedno). Obrađeno je prvih 5 stranica.',
+      'angličtina': '⚠️ Warning: The maximum limit is 5 pages per letter (photos and PDF combined). Only the first 5 pages were processed.'
+    };
 
-document.getElementById('ui-lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
-document.getElementById('cam-input').addEventListener('change', (e) => handleFiles(e.target.files));
-document.getElementById('file-input').addEventListener('change', (e) => handleFiles(e.target.files));
+    const langSelect = document.getElementById('langSelect');
+    const cameraInput = document.getElementById('cameraInput');
+    const fileInput = document.getElementById('fileInput');
+    const previewsEl = document.getElementById('previews');
+    const pageCountLabel = document.getElementById('pageCountLabel');
+    const processingStatus = document.getElementById('processingStatus');
+    const warningBox = document.getElementById('warningBox');
+    const errorBox = document.getElementById('errorBox');
+    const textInput = document.getElementById('textInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultSection = document.getElementById('resultSection');
 
-async function handleFiles(files) {
-  for (const file of Array.from(files)) {
-    if (file.type.startsWith('image/')) {
-      const dataUrl = await readFileAsDataURL(file);
-      uploadedFiles.push({ type: 'image', data: dataUrl, name: file.name });
-    } else if (file.type === 'application/pdf') {
-      try {
-        const pages = await renderPdfToImages(file);
-        pages.forEach((p, idx) => {
-          uploadedFiles.push({ type: 'image', data: p, name: `${file.name} (str. ${idx + 1})` });
-        });
-      } catch (err) {
-        alert("Chyba PDF: " + err.message);
+    function updateWarningDisplay() {
+      if (limitExceededActive) {
+        const lang = langSelect.value;
+        warningBox.textContent = LIMIT_WARNINGS[lang] || LIMIT_WARNINGS['slovenčina'];
+        warningBox.style.display = 'block';
+      } else {
+        warningBox.style.display = 'none';
       }
     }
-  }
-  updateThumbs();
-}
 
-function readFileAsDataURL(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => resolve(e.target.result);
-    reader.readAsDataURL(file);
-  });
-}
+    langSelect.addEventListener('change', updateWarningDisplay);
 
-async function renderPdfToImages(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  const images = [];
-  for (let i = 1; i <= Math.min(pdf.numPages, 3); i++) {
-    const page = await pdf.getPage(i);
-    const viewport = page.getViewport({ scale: 1.5 });
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    images.push(canvas.toDataURL('image/jpeg', 0.85));
-  }
-  return images;
-}
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = msg ? 'block' : 'none';
+    }
 
-function updateThumbs() {
-  const c = document.getElementById('thumbs-container');
-  c.innerHTML = '';
-  uploadedFiles.forEach((f, idx) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'thumb-preview';
-    wrap.innerHTML = `<img src="${f.data}" alt="${f.name}"><button class="remove-btn" onclick="removeThumb(${idx})">×</button>`;
-    c.appendChild(wrap);
-  });
-}
+    function renderPreviews() {
+      pageCountLabel.textContent = `Nahraté strany: ${pages.length} / ${MAX_PAGES}`;
+      previewsEl.innerHTML = '';
 
-function removeThumb(idx) {
-  uploadedFiles.splice(idx, 1);
-  updateThumbs();
-}
+      pages.forEach((dataUrl, idx) => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
 
-document.getElementById('analyze-btn').addEventListener('click', async () => {
-  const used = getUsageCount();
-  if (used >= MAX_FREE_USES) {
-    window.open(REVOLUT_PAY_URL, '_blank');
-    return;
-  }
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.alt = `Strana ${idx + 1}`;
 
-  const text = document.getElementById('letter-text').value.trim();
-  const status = document.getElementById('status-msg');
-  const btn = document.getElementById('analyze-btn');
-  const t = I18N[currentLang] || I18N.sk;
+        const badge = document.createElement('span');
+        badge.className = 'preview-badge';
+        badge.textContent = `${idx + 1}. str.`;
 
-  if (!text && uploadedFiles.length === 0) {
-    status.className = 'status-msg error';
-    status.textContent = t.errNoInput;
-    return;
-  }
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => {
+          pages.splice(idx, 1);
+          if (pages.length < MAX_PAGES) {
+            limitExceededActive = false;
+            updateWarningDisplay();
+          }
+          renderPreviews();
+        };
 
-  status.className = 'status-msg loading';
-  status.textContent = "Analyzujem dokument...";
-  btn.setAttribute('disabled', 'true');
+        item.appendChild(img);
+        item.appendChild(badge);
+        item.appendChild(removeBtn);
+        previewsEl.appendChild(item);
+      });
+    }
 
-  try {
-    const base64Images = uploadedFiles.map(f => f.data.split(',')[1]);
-    const langSelect = document.getElementById('lang-select');
-    const selectedLang = langSelect.options[langSelect.selectedIndex].value;
+    // Automatické zmenšenie fotografie z mobilu (max 1400px, JPEG 0.72)
+    function compressImage(file) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
 
-    const res = await fetch('/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: text || null,
-        images: base64Images,
-        lang: selectedLang
-      })
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const maxDim = 1400;
+          let { width, height } = img;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+
+          resolve(canvas.toDataURL('image/jpeg', 0.72));
+        };
+
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Nepodarilo sa spracovať fotografiu.'));
+        };
+
+        img.src = url;
+      });
+    }
+
+    // Spracovanie všetkých strán PDF (do limitu 5 strán dokopy)
+    async function processPdf(file, remainingSlots) {
+      const buffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+      const pagesToProcess = Math.min(pdf.numPages, remainingSlots);
+      const exceeded = pdf.numPages > remainingSlots;
+      const extracted = [];
+
+      for (let i = 1; i <= pagesToProcess; i++) {
+        processingStatus.textContent = `Spracúvam PDF (${i}/${pagesToProcess})...`;
+        const page = await pdf.getPage(i);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const maxSide = Math.max(baseViewport.width, baseViewport.height);
+        const scale = Math.min(2.0, 1400 / maxSide);
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        extracted.push(canvas.toDataURL('image/jpeg', 0.72));
+      }
+
+      return { extracted, exceeded };
+    }
+
+    async function handleFiles(fileList) {
+      const files = Array.from(fileList || []);
+      if (!files.length) return;
+
+      showError('');
+      processingStatus.textContent = 'Zmenšujem a pripravujem...';
+
+      try {
+        for (const file of files) {
+          const remaining = MAX_PAGES - pages.length;
+
+          if (remaining <= 0) {
+            limitExceededActive = true;
+            break;
+          }
+
+          if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+            const { extracted, exceeded } = await processPdf(file, remaining);
+            pages.push(...extracted);
+            if (exceeded) {
+              limitExceededActive = true;
+            }
+          } else if (file.type.startsWith('image/')) {
+            const compressed = await compressImage(file);
+            pages.push(compressed);
+          }
+        }
+      } catch (err) {
+        showError(err.message || 'Chyba pri načítaní súboru.');
+      } finally {
+        processingStatus.textContent = '';
+        cameraInput.value = '';
+        fileInput.value = '';
+        updateWarningDisplay();
+        renderPreviews();
+      }
+    }
+
+    cameraInput.addEventListener('change', (e) => handleFiles(e.target.files));
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    submitBtn.addEventListener('click', async () => {
+      const text = textInput.value.trim();
+      const lang = langSelect.value;
+
+      if (!text && pages.length === 0) {
+        showError('Odfoťte list, nahrajte PDF/fotku alebo vložte text.');
+        return;
+      }
+
+      showError('');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Analyzujem dokument...';
+
+      try {
+        const response = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text,
+            images: pages,
+            lang
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Chyba pri analýze dokumentu.');
+        }
+
+        // Vyplnenie výsledkov
+        const badge = document.getElementById('urgencyBadge');
+        const urgency = (data.nalehavost || 'stredna').toLowerCase();
+        badge.className = `badge badge-${urgency}`;
+        badge.textContent =
+          urgency === 'vysoka'
+            ? 'Vysoká naliehavosť'
+            : urgency === 'nizka'
+            ? 'Nízka naliehavosť'
+            : 'Stredná naliehavosť';
+
+        document.getElementById('resTitle').textContent = data.nadpis || 'Analýza listu';
+        document.getElementById('resSender').textContent = data.odosielatel
+          ? `Odosielateľ: ${data.odosielatel}`
+          : '';
+        document.getElementById('resDeadline').textContent = data.termin || 'Neuvedený';
+        document.getElementById('resAmount').textContent = data.suma || 'Žiadna suma';
+        document.getElementById('resSummary').textContent = data.zhrnutie || '';
+        document.getElementById('resRisk').textContent = data.hrozi || 'Neuvedené';
+        document.getElementById('resReplyDe').textContent = data.odpoved_de || '';
+        document.getElementById('resReplyTranslated').textContent = data.odpoved_preklad || '';
+
+        const stepsEl = document.getElementById('resSteps');
+        stepsEl.innerHTML = '';
+        (data.kroky || []).forEach((step) => {
+          const li = document.createElement('li');
+          li.textContent = step;
+          stepsEl.appendChild(li);
+        });
+
+        resultSection.style.display = 'block';
+        resultSection.scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        showError(err.message || 'Nepodarilo sa spojiť so serverom.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Analyzovať a preložiť list';
+      }
     });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Chyba na serveri");
-
-    incrementUsageCount();
-    currentAnalysisData = data;
-    renderResult(data);
-    status.textContent = "";
-  } catch (err) {
-    status.className = 'status-msg error';
-    status.textContent = "Chyba: " + err.message;
-  } finally {
-    btn.removeAttribute('disabled');
-  }
-});
-
-function renderResult(data) {
-  const t = I18N[currentLang] || I18N.sk;
-  const container = document.getElementById('result-sheet');
-  const used = getUsageCount();
-
-  const nalehavostClass = data.nalehavost === 'vysoka' ? 'vysoka' : (data.nalehavost === 'nizka' ? 'nizka' : 'stredna');
-  const stepsList = (data.kroky || []).map(s => `<li>${s}</li>`).join('');
-
-  container.innerHTML = `
-    <div class="result-header">
-      <div class="pill ${nalehavostClass}">${data.nalehavost ? data.nalehavost.toUpperCase() : 'NORMÁLNA'}</div>
-      <h2>${data.nadpis || 'Výsledok rozboru'}</h2>
-      <div class="result-meta">${t.sender}: <b>${data.odosielatel || 'Neznámy'}</b></div>
-    </div>
-    <div class="result-key-facts">
-      <div class="key-fact">
-        <span>${t.deadline}</span>
-        <b style="color: var(--danger);">${data.termin || 'Neuvedený'}</b>
-      </div>
-      <div class="key-fact">
-        <span>${t.amount}</span>
-        <b>${data.suma || '0 € / Neuvádza sa'}</b>
-      </div>
-    </div>
-    <div class="result-body">
-      <div class="result-section">
-        <h3>${t.whatIsIt}</h3>
-        <p>${data.zhrnutie || '-'}</p>
-      </div>
-      <div class="result-section">
-        <h3>${t.whatToDo}</h3>
-        <ol>${stepsList}</ol>
-      </div>
-      <div class="result-section">
-        <h3>${t.whatIfIgnore}</h3>
-        <p style="color: var(--danger); font-weight: 500;">${data.hrozi || '-'}</p>
-      </div>
-      ${data.vyzaduje_pravnika ? `<div class="callout-box disclaimer-box"><strong>${t.lawyerWarn}</strong></div>` : ''}
-    </div>
-
-    ${used >= MAX_FREE_USES ? `
-    <div class="paywall-block" style="margin: 0 20px 20px;">
-      <h4>${t.paywallHead}</h4>
-      <p>${t.paywallDesc}</p>
-      <a href="${REVOLUT_PAY_URL}" target="_blank" class="revolut-btn">
-        💳 ${t.paywallBtn}
-      </a>
-    </div>
-    ` : ''}
-
-    <div style="padding: 0 20px 20px;">
-      <div class="draft-container">
-        <div class="draft-tabs">
-          <button class="tab-btn ${activeDraftTab === 'de' ? 'active' : ''}" id="btn-tab-de" onclick="switchDraftTab('de')">${t.deTab}</button>
-          <button class="tab-btn ${activeDraftTab === 'trans' ? 'active' : ''}" id="btn-tab-trans" onclick="switchDraftTab('trans')">${t.transTab}</button>
-        </div>
-        <div class="draft-content" id="draft-content-text">${activeDraftTab === 'de' ? (data.odpoved_de || '') : (data.odpoved_preklad || '')}</div>
-      </div>
-    </div>
-
-    <div class="download-bar">
-      <button class="action-btn-secondary" onclick="copyDraftText()">${t.copyBtn}</button>
-      <button class="action-btn-secondary" onclick="downloadSummary()">${t.dlBtn}</button>
-    </div>
-  `;
-
-  container.scrollIntoView({ behavior: 'smooth' });
-}
-
-function switchDraftTab(tab) {
-  activeDraftTab = tab;
-  const btnDe = document.getElementById('btn-tab-de');
-  const btnTrans = document.getElementById('btn-tab-trans');
-  if (btnDe) btnDe.classList.toggle('active', tab === 'de');
-  if (btnTrans) btnTrans.classList.toggle('active', tab === 'trans');
-  if (!currentAnalysisData) return;
-  const content = document.getElementById('draft-content-text');
-  if (content) {
-    content.textContent = tab === 'de' ? (currentAnalysisData.odpoved_de || '') : (currentAnalysisData.odpoved_preklad || '');
-  }
-}
-
-function copyDraftText() {
-  const content = document.getElementById('draft-content-text');
-  if (!content) return;
-  navigator.clipboard.writeText(content.textContent);
-  const t = I18N[currentLang] || I18N.sk;
-  alert(t.copied || "Skopírované!");
-}
-
-function downloadSummary() {
-  if (!currentAnalysisData) return;
-  const d = currentAnalysisData;
-  const out = `LIST JASNE / BRIEFKLAR - ROZBOR DOKUMENTU\n\nOdosielatel: ${d.odosielatel}\nPredmet: ${d.nadpis}\nTermin: ${d.termin}\nSuma: ${d.suma}\n\nZHRNUTIE:\n${d.zhrnutie}\n\nKROKY:\n${(d.kroky||[]).join('\n')}\n\nHROZI:\n${d.hrozi}\n\nODPOVED (DE):\n${d.odpoved_de}\n\nPREKLAD:\n${d.odpoved_preklad}`;
-  const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `rozbor-${Date.now()}.txt`;
-  a.click();
-}
-
-updateUIUsage();
-</script>
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const replyText = document.getElementById('resReplyDe').textContent;
+      navigator.clipboard.writeText(replyText);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✅ Skopírované!';
+      setTimeout(() => {
+        btn.textContent = '📋 Kopírovať odpoveď v nemčine';
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
