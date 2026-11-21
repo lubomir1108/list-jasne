@@ -53,16 +53,16 @@
     .card-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); }
     .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .upload-grid { grid-template-columns: 1fr; } }
-    .upload-btn-label { position: relative; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-align: center; background: #fafafa; transition: all 0.15s ease; }
-    .upload-btn-label:hover { border-color: var(--primary); background: var(--primary-soft); }
-    .upload-btn-label input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .upload-btn-label { position: relative; overflow: hidden; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-align: center; background: #fafafa; transition: all 0.15s ease; }
+    .upload-btn-label:hover, .upload-btn-label:active { border-color: var(--primary); background: var(--primary-soft); }
+    .upload-btn-label input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 5; font-size: 0; }
     .upload-btn-label .icon { font-size: 26px; }
     .upload-btn-label b { font-size: 14.5px; color: var(--ink); }
     .upload-btn-label small { font-size: 12px; color: var(--subtle); }
     .thumbs-container { display: flex; gap: 10px; flex-wrap: wrap; }
     .thumb-preview { position: relative; width: 72px; height: 96px; }
     .thumb-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid var(--card-border); }
-    .thumb-preview .remove-btn { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--danger); color: #fff; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+    .thumb-preview .remove-btn { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--danger); color: #fff; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; z-index: 6; }
     .limit-warn-box { display: none; background: var(--warning-soft); border: 1px solid #fde68a; color: var(--warning); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
     label.field-lbl { display: block; font-size: 12.5px; font-weight: 600; color: var(--subtle); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
     textarea, select { width: 100%; font-family: inherit; font-size: 14.5px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: #f8fafc; color: var(--ink); }
@@ -176,18 +176,18 @@
   <section class="card" id="upload-panel">
     <div class="card-title" id="form-step1">1. Nahrajte alebo odfoťte list</div>
     <div class="upload-grid">
-      <label class="upload-btn-label" for="cam-input">
+      <div class="upload-btn-label">
         <input id="cam-input" type="file" accept="image/*" capture="environment">
         <span class="icon">📷</span>
         <b id="btn-cam-title">Odfotiť mobilom</b>
         <small id="btn-cam-sub">Otvorí kameru telefónu</small>
-      </label>
-      <label class="upload-btn-label" for="file-input">
+      </div>
+      <div class="upload-btn-label">
         <input id="file-input" type="file" accept="image/*,application/pdf" multiple>
         <span class="icon">📁</span>
         <b id="btn-file-title">Nahrať fotku alebo PDF</b>
         <small id="btn-file-sub">Max. 5 strán spolu</small>
-      </label>
+      </div>
     </div>
     <div class="limit-warn-box" id="limit-warn-box"></div>
     <div class="thumbs-container" id="thumbs-container"></div>
@@ -699,18 +699,19 @@ function setLanguage(code) {
 
 document.getElementById('ui-lang-select').addEventListener('change', (e) => setLanguage(e.target.value));
 document.getElementById('cam-input').addEventListener('change', async (e) => {
-  await handleFiles(e.target.files);
+  await handleFiles(e.target.files, true);
   e.target.value = '';
 });
 document.getElementById('file-input').addEventListener('change', async (e) => {
-  await handleFiles(e.target.files);
+  await handleFiles(e.target.files, false);
   e.target.value = '';
 });
 
-async function handleFiles(files) {
+async function handleFiles(files, isCamera = false) {
+  if (!files || files.length === 0) return;
   const status = document.getElementById('status-msg');
   status.className = 'status-msg loading';
-  status.textContent = "Spracúvam prílohu...";
+  status.textContent = "Spracúvam fotografiu...";
 
   try {
     for (const file of Array.from(files)) {
@@ -720,66 +721,77 @@ async function handleFiles(files) {
         break;
       }
 
-      if (file.type.startsWith('image/')) {
-        const dataUrl = await compressImageFile(file);
-        uploadedFiles.push({ type: 'image', data: dataUrl, name: file.name });
-      } else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-        try {
-          const { images, exceeded } = await renderPdfToImages(file, remainingSlots);
-          images.forEach((p, idx) => {
-            uploadedFiles.push({ type: 'image', data: p, name: `${file.name} (str. ${idx + 1})` });
-          });
-          if (exceeded) {
-            setLimitWarning(true);
-          }
-        } catch (err) {
-          alert("Chyba PDF: " + err.message);
+      const fileName = (file.name || '').toLowerCase();
+      const fileType = (file.type || '').toLowerCase();
+      const isPdf = !isCamera && (fileType === 'application/pdf' || fileName.endsWith('.pdf'));
+
+      if (isPdf) {
+        const { images, exceeded } = await renderPdfToImages(file, remainingSlots);
+        images.forEach((p, idx) => {
+          uploadedFiles.push({ type: 'image', data: p, name: `${file.name || 'dokument.pdf'} (str. ${idx + 1})` });
+        });
+        if (exceeded) {
+          setLimitWarning(true);
         }
+      } else {
+        // Fotka z kamery alebo galérie (funguje aj keď Android nevráti file.type)
+        const dataUrl = await compressImageFile(file);
+        uploadedFiles.push({ type: 'image', data: dataUrl, name: file.name || `strana-${uploadedFiles.length + 1}.jpg` });
       }
     }
-  } finally {
     status.textContent = "";
+  } catch (err) {
+    status.className = 'status-msg error';
+    status.textContent = "Chyba: " + (err.message || "Nepodarilo sa spracovať súbor.");
+  } finally {
     updateThumbs();
   }
 }
 
-function compressImageFile(file) {
+function readFileAsDataURL(file) {
   return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.onerror = () => reject(new Error('Nepodarilo sa prečítať súbor.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function compressImageFile(file) {
+  const rawDataUrl = await readFileAsDataURL(file);
+
+  return new Promise((resolve) => {
     const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-
     img.onload = () => {
-      URL.revokeObjectURL(objectUrl);
-      const maxDim = 1500;
-      let { width, height } = img;
+      try {
+        const maxDim = 1400;
+        let { width, height } = img;
 
-      if (width > maxDim || height > maxDim) {
-        if (width > height) {
-          height = Math.round((height * maxDim) / width);
-          width = maxDim;
-        } else {
-          width = Math.round((width * maxDim) / height);
-          height = maxDim;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
         }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        resolve(canvas.toDataURL('image/jpeg', 0.75));
+      } catch (e) {
+        resolve(rawDataUrl);
       }
-
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, width, height);
-      ctx.drawImage(img, 0, 0, width, height);
-
-      resolve(canvas.toDataURL('image/jpeg', 0.78));
     };
-
-    img.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      reject(new Error('Nepodarilo sa načítať obrázok.'));
-    };
-
-    img.src = objectUrl;
+    img.onerror = () => resolve(rawDataUrl);
+    img.src = rawDataUrl;
   });
 }
 
@@ -794,7 +806,7 @@ async function renderPdfToImages(file, maxPagesToRead) {
     const page = await pdf.getPage(i);
     const baseViewport = page.getViewport({ scale: 1 });
     const maxSide = Math.max(baseViewport.width, baseViewport.height);
-    const scale = Math.min(2.0, 1500 / maxSide);
+    const scale = Math.min(2.0, 1400 / maxSide);
     const viewport = page.getViewport({ scale });
 
     const canvas = document.createElement('canvas');
@@ -805,7 +817,7 @@ async function renderPdfToImages(file, maxPagesToRead) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     await page.render({ canvasContext: ctx, viewport }).promise;
-    images.push(canvas.toDataURL('image/jpeg', 0.78));
+    images.push(canvas.toDataURL('image/jpeg', 0.75));
   }
   return { images, exceeded };
 }
